@@ -6,28 +6,79 @@
 -->
 <template>
   <q-page class="q-pa-lg">
-    <div class="row">
-      <q-btn-toggle
-        v-model="mode"
-        toggle-color="primary"
-        :options="options"
-      />
-      <q-btn icon="date range" class="q-ml-lg q-pl-sm q-pr-sm" outline dense color="primary" size="md" label="今天"/>
 
-      <div class="col q-ml-lg">
-        <q-btn icon="keyboard arrow left" outline round size="md" color="primary"></q-btn>
-        <q-btn icon="keyboard arrow right" class="q-ml-sm" outline round size="md" color="primary"></q-btn>
+    <calendar-header-nav class="q-mb-xs"
+                         :show-label-only="true">
+      <div class="row">
+        <q-btn-toggle
+          v-model="mode"
+          toggle-color="primary"
+          :options="options"
+        />
+        <q-btn icon="date range" class="q-ml-lg q-pl-sm q-pr-sm" outline dense color="primary" size="md" label="今天"/>
       </div>
-    </div>
+    </calendar-header-nav>
+
+    <!--<calendar-month-->
+    <!--:event-array="events"-->
+    <!--:allow-editing="true"/>-->
+
+    <calendar-multi-day
+      ref="week-calendar"
+      :event-array="events"
+      :num-days="7"
+      :nav-days="7"
+      :allow-editing="true"
+    />
 
   </q-page>
 </template>
 
 <script>
+  import {CalendarMonth, CalendarMultiDay, CalendarHeaderNav} from 'components/calendar'
+
+  const {DateTime} = require('luxon')
+
   export default {
     // name: 'PageName',
+    components: {
+      CalendarMonth,
+      CalendarMultiDay,
+      CalendarHeaderNav
+    },
     data() {
       return {
+        parsed: {
+          byAllDayStartDate: {},
+          byStartDate: {},
+          byId: {}
+        },
+        events: [
+          {
+            id: 1,
+            summary: 'Test event',
+            description: 'Some extra info goes here',
+            location: 'Office of the Divine Randomness, 1232 Main St., Denver, CO',
+            startTime: '2018-09-20T14:00:00+0800', // ISO 8601 formatted
+            endTime: '2018-09-20T16:30:00+0800',
+            color: 'positive'
+          },
+          {
+            id: 2,
+            summary: 'Test  event',
+            description: 'Some extra info goes here',
+            startTime: '2018-09-16T14:00:00+0800', // A date variable indicates an all-day event
+            endTime: '2018-09-19T20:00:00+0800',
+            color: 'negative'
+          },
+          {
+            id: 3,
+            summary: 'Some other test event',
+            description: 'Some extra info goes here',
+            startTime: '2018-09-20T10:00:00+0800', // timezone embedded in dateTime
+            endTime: '2018-09-20T12:30:00+0800'
+          },
+        ],
         mode: 'monthly',
         options: [
           {
@@ -44,6 +95,10 @@
           }
         ]
       }
+    },
+    created() {
+      console.log(DateTime.local().locale)
+      console.log(DateTime.local().zoneName)
     }
   }
 </script>

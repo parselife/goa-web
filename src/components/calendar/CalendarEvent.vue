@@ -22,13 +22,8 @@
 </template>
 
 <script>
-  import {
-    QBtn,
-    QTooltip
-  } from 'quasar'
-  import CalendarMixin from './mixins/CalendarMixin'
-  import CalendarEventMixin from './mixins/CalendarEventMixin'
-  import dashHas from 'lodash.has'
+  import {CalendarEventMixin, CalendarMixin} from './mixins'
+  import dashHas from 'lodash/has'
   const { DateTime } = require('luxon')
   export default {
     name: 'CalendarEvent',
@@ -72,10 +67,6 @@
         type: Boolean,
         default: false
       }
-    },
-    components: {
-      QBtn,
-      QTooltip
     },
     mixins: [CalendarMixin, CalendarEventMixin],
     data () {

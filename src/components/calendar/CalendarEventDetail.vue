@@ -320,22 +320,9 @@
 </template>
 
 <script>
-  import dashHas from 'lodash.has'
-  import {
-    QList,
-    QItem,
-    QItemSide,
-    QItemTile,
-    QItemMain,
-    QModal,
-    QBtn,
-    QIcon,
-    QField,
-    QCheckbox,
-    QDatetime,
-    QInput
-  } from 'quasar'
-  import CalendarMixin from './mixins/CalendarMixin'
+  import dashHas from 'lodash/has'
+ 
+  import {CalendarMixin} from './mixins'
   const { DateTime } = require('luxon')
   export default {
     name: 'CalendarEventDetail',
@@ -364,20 +351,6 @@
         type: String,
         default: 'grey-2'
       }
-    },
-    components: {
-      QList,
-      QItem,
-      QItemSide,
-      QItemTile,
-      QItemMain,
-      QModal,
-      QBtn,
-      QIcon,
-      QField,
-      QCheckbox,
-      QDatetime,
-      QInput
     },
     mixins: [CalendarMixin],
     data () {
@@ -518,7 +491,7 @@
   }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" rel="stylesheet/stylus">
   @import '../../css/calendar.vars.styl'
 
   $topSidePadding = 16px

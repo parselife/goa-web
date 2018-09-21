@@ -11,8 +11,23 @@
           @click="leftDrawer = !leftDrawer"
         />
         <q-toolbar-title>
-          我的众越
+          WH
+          <q-tabs class="q-ml-xl">
+            <q-route-tab
+              icon="mail"
+              to="/mails"
+              exact
+              slot="title"
+            />
+            <q-route-tab
+              icon="alarm"
+              to="/alarms"
+              exact
+              slot="title"
+            />
+          </q-tabs>
         </q-toolbar-title>
+
         <q-btn flat dense icon="fullscreen"/>
       </q-toolbar>
     </q-layout-header>

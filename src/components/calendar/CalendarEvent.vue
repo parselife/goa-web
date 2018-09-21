@@ -2,35 +2,34 @@
   <div
     :class="getEventClass()"
     :style="getEventStyle()"
-    @click="handleClick"
-  >
-    <template v-if="!eventHasPreviousDay() || (firstDayOfWeek && eventHasPreviousDay())">
-      <span v-if="!isAllDayEvent() && showTime" class="calendar-event-start-time">
+    @click="handleClick">
+      <span v-if="showTime" class="calendar-event-start-time">
         {{ formatTime(eventObject.start.dateObject) }}
       </span>
-      <span v-if="isEmptySlot()" class="calendar-event-summary">
-        &nbsp;
-      </span>
-      <span v-else class="calendar-event-summary">
-        {{ eventObject.summary }}
-      </span>
-    </template>
-    <template v-else>
-      &nbsp;
-    </template>
+    <span v-if="monthStyle" class="q-mx-xs">
+      ~
+    </span>
+    <span v-if="monthStyle">
+       {{ formatTime(eventObject.end.dateObject) }}
+    </span>
+    <span v-if="isEmptySlot()" class="calendar-event-summary"></span>
+    <span v-else class="calendar-event-summary">
+        {{ eventObject.title }}
+    </span>
   </div>
 </template>
 
 <script>
   import {CalendarEventMixin, CalendarMixin} from './mixins'
-  import dashHas from 'lodash/has'
-  const { DateTime } = require('luxon')
+
+  const {DateTime} = require('luxon')
   export default {
     name: 'CalendarEvent',
     props: {
       eventObject: {
         type: Object,
-        default: () => {}
+        default: () => {
+        }
       },
       color: {
         type: String,
@@ -61,7 +60,9 @@
       lastDayOfWeek: Boolean,
       calendarLocale: {
         type: String,
-        default: () => { return DateTime.local().locale }
+        default: () => {
+          return DateTime.local().locale
+        }
       },
       allowEditing: {
         type: Boolean,
@@ -69,11 +70,10 @@
       }
     },
     mixins: [CalendarMixin, CalendarEventMixin],
-    data () {
+    data() {
       return {}
     },
-    computed: {
-    },
+    computed: {},
     methods: {
       getEventStyle: function () {
         return {
@@ -87,34 +87,13 @@
             'calendar-event': true,
             'calendar-event-month': this.monthStyle,
             'calendar-event-multi': !this.monthStyle,
-            'calendar-event-multi-allday': this.forceAllDay,
-            'calendar-event-has-next-day': this.eventHasNextDay(),
-            'calendar-event-has-previous-day': this.eventHasPreviousDay(),
             'calendar-event-empty-slot': this.isEmptySlot(),
-            'calendar-event-continues-next-week': this.eventContinuesNextWeek(), // for future use
-            'calendar-event-continues-from-last-week': this.eventContinuesFromLastWeek() // for future use
           },
           this.eventObject
         )
       },
       isEmptySlot: function () {
         return this.eventObject.start.isEmptySlot
-      },
-      eventContinuesNextWeek: function () {
-        return (
-          dashHas(this.eventObject, 'start.dateObject') &&
-          this.monthStyle &&
-          this.eventHasNextDay() &&
-          (this.lastDayOfWeek || this.isLastDayOfMonth(this.eventObject.start.dateObject))
-        )
-      },
-      eventContinuesFromLastWeek: function () {
-        return (
-          dashHas(this.eventObject, 'start.dateObject') &&
-          this.monthStyle &&
-          this.eventHasPreviousDay() &&
-          (this.firstDayOfWeek || this.isFirstDayOfMonth(this.eventObject.start.dateObject))
-        )
       },
       isLastDayOfMonth: function (dateObject) {
         if (typeof dateObject === 'undefined' || dateObject === null) {
@@ -128,30 +107,11 @@
         }
         return this.makeDT(this.currentCalendarDay).toISODate() === this.makeDT(dateObject).startOf('month').toISODate()
       },
-      eventHasNextDay: function () {
-        if (this.hasNextDay) {
-          return this.hasNextDay
-        }
-        return false
-      },
-      eventHasPreviousDay: function () {
-        if (this.hasPreviousDay) {
-          return this.hasPreviousDay
-        }
-        return false
-      },
       formatTime: function (startTime) {
-        let returnString = this.makeDT(startTime).toLocaleString(DateTime.TIME_SIMPLE)
-        // simplify if AM / PM present
-        if (returnString.includes('M')) {
-          returnString = returnString.replace(':00', '') // remove minutes if = ':00'
-            .replace(' AM', 'a')
-            .replace(' PM', 'p')
-        }
+        // let returnString = this.makeDT(startTime).toLocaleString(DateTime.TIME_SIMPLE)
+        let returnString = this.makeDT(startTime).toFormat('T')
+
         return returnString
-      },
-      isAllDayEvent: function () {
-        return this.eventObject.start.isAllDay
       },
       handleClick: function (e) {
         this.eventObject.allowEditing = this.allowEditing
@@ -159,7 +119,8 @@
         this.triggerEventClick(this.eventObject, this.eventRef)
       }
     },
-    mounted () {}
+    mounted() {
+    }
   }
 </script>
 

@@ -6,7 +6,7 @@
       :key="thisHour"
       :style="getCellStyle"
     >
-      <div class="calendar-day-time-content"></div>
+      <div class="calendar-day-time-content cursor-pointer"></div>
     </div>
 
     <!-- events -->
@@ -15,14 +15,10 @@
       v-for="eventObject in dateEvents"
       :key="makeDT(workingDate).toISODate() + getEventIdString(eventObject)"
       :class="calculateDayEventClass(eventObject)"
-      :style="calculateDayEventStyle(eventObject)"
-    >
+      :style="calculateDayEventStyle(eventObject)">
       <calendar-event
-        v-if="!eventObject.start.isAllDay"
         :event-object="eventObject"
         :event-ref="eventRef"
-        :calendar-locale="calendarLocale"
-        :calendar-timezone="calendarTimezone"
         :prevent-event-detail="preventEventDetail"
         :allow-editing="allowEditing"
       />
@@ -32,16 +28,19 @@
 </template>
 
 <script>
+  import {CalendarMixin} from './mixins'
   import CalendarEvent from './CalendarEvent'
-  import CalendarMixin from './mixins/CalendarMixin'
-  import { date } from 'quasar'
-  const { DateTime } = require('luxon')
+  import {date} from 'quasar'
+
+  const {DateTime} = require('luxon')
   export default {
     name: 'CalendarDayColumn',
     props: {
       startDate: {
         type: [Object, Date],
-        default: () => { return new Date() }
+        default: () => {
+          return new Date()
+        }
       },
       dateEvents: {
         type: Array,
@@ -66,11 +65,15 @@
       },
       calendarLocale: {
         type: String,
-        default: () => { return DateTime.local().locale }
+        default: () => {
+          return DateTime.local().locale
+        }
       },
       calendarTimezone: {
         type: String,
-        default: () => { return DateTime.local().zoneName }
+        default: () => {
+          return DateTime.local().zoneName
+        }
       },
       allowEditing: {
         type: Boolean,
@@ -81,7 +84,7 @@
       CalendarEvent
     },
     mixins: [CalendarMixin],
-    data () {
+    data() {
       return {
         workingDate: new Date(),
         eventDetailEventObject: {}
@@ -166,8 +169,10 @@
         }
       }
     },
-    mounted () {
+    mounted() {
       this.mountSetDate()
+      console.log(this.dateEvents)
+
     }
   }
 </script>

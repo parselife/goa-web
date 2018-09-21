@@ -6,6 +6,7 @@
       :class="{
         'calendar-day-label': true,
         'calendar-cell': true,
+        'text-center': true,
         'calendar-day-label-current': isCurrentDayLabel(thisDay),
         'cursor-pointer': calendarDaysAreClickable
       }"
@@ -126,7 +127,7 @@
       font-size 1.1em
       padding-left 4px
       .calendar-day-label-date
-        font-size 1.75em
+        font-size 1.5em
     .calendar-day-label-current
       font-weight bold
 

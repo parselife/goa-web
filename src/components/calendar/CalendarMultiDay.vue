@@ -1,6 +1,6 @@
 <template>
   <div class="calendar-multi-day-component column fit no-wrap">
-    <!-- week nav -->
+    <!-- 最顶部的日期显示与导航 -->
     <template v-if="numDays === 1">
       <calendar-header-nav
         time-period-unit="days"
@@ -21,6 +21,7 @@
       </calendar-header-nav>
     </template>
 
+    <!--顶部的日期 星期几 选择单天显示时 隐藏此部分内容-->
     <div v-if="numDays > 1" class="calendar-time-margin">
       <calendar-day-labels
         :number-of-days="numDays"
@@ -33,27 +34,15 @@
       />
     </div>
 
-    <!-- all day events -->
-    <div class="calendar-time-margin">
-      <calendar-all-day-events
-        :number-of-days="numDays"
-        :start-date="weekDateArray[0]"
-        :parsed="parsed"
-        :event-ref="eventRef"
-        :prevent-event-detail="preventEventDetail"
-        :calendar-locale="calendarLocale"
-        :calendar-timezone="calendarTimezone"
-      />
-    </div>
-
-    <!-- content -->
+    <!-- 中间的展示内容 -->
     <div class="col">
       <div class="calendar-day row">
-        <calendar-time-label-column
-          :calendar-locale="calendarLocale"
-        />
+        <!--左侧的24小时展示列-->
+        <calendar-time-label-column day-cell-height="3rem"/>
+        <!--渲染日志/事件内容-->
         <div class="calendar-multiple-days col row">
           <calendar-day-column
+            :day-cell-height="3"
             v-for="thisDate in weekDateArray"
             :key="makeDT(thisDate).toISODate()"
             :start-date="thisDate"
@@ -62,8 +51,6 @@
             :style="{ 'width': dayCellWidth }"
             :event-ref="eventRef"
             :prevent-event-detail="preventEventDetail"
-            :calendar-locale="calendarLocale"
-            :calendar-timezone="calendarTimezone"
             :allow-editing="allowEditing"
           />
         </div>
@@ -83,8 +70,6 @@
       v-if="!preventEventDetail"
       :event-object="eventDetailEventObject"
       :event-ref="eventRef"
-      :calendar-locale="calendarLocale"
-      :calendar-timezone="calendarTimezone"
       :allow-editing="allowEditing"
     />
 
@@ -98,7 +83,6 @@
   import CalendarTimeLabelColumn from './CalendarTimeLabelColumn'
   import CalendarDayLabels from './CalendarDayLabels'
   import CalendarHeaderNav from './CalendarHeaderNav'
-  import CalendarAllDayEvents from './CalendarAllDayEvents'
   import CalendarEventDetail from './CalendarEventDetail'
 
   export default {
@@ -143,7 +127,6 @@
       CalendarTimeLabelColumn,
       CalendarDayLabels,
       CalendarHeaderNav,
-      CalendarAllDayEvents,
       CalendarEventDetail
     },
     data() {
@@ -226,6 +209,10 @@
         'update-event-' + this.eventRef,
         this.handleEventUpdate
       )
+      this.$root.$on(
+        'delete-event-' + this.eventRef,
+        this.handleEventDelete()
+      )
     },
     watch: {
       startDate: 'handleStartChange',
@@ -254,6 +241,7 @@
       .calendar-day-time
         padding-right .5em
         border-right $borderOuter
+        padding-top 1rem
       .calendar-day-time-content
         border-top $borderThin
 

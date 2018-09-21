@@ -13,7 +13,6 @@ const {DateTime} = require('luxon')
 export default {
   computed: {},
   methods: {
-
     formatToSqlDate: function (dateObject) {
       return this.makeDT(dateObject).toISODate()
     },
@@ -21,49 +20,9 @@ export default {
       return this.parsed.byId[eventId]
     },
     dateGetEvents: function (thisDate, skipSlotIndicators) {
-      let hasAllDayEvents = this.hasAllDayEvents(thisDate)
       let hasEvents = this.hasEvents(thisDate)
       let returnArray = []
       let sqlDate = this.makeDT(thisDate).toISODate()
-      if (hasAllDayEvents) {
-        let transferFields = ['daysFromStart', 'durationDays', 'hasNext', 'hasPrev', 'slot']
-        // build temp object with slot IDs
-        let slotObject = {}
-        let maxSlot = 0
-        for (let thisEvent of this.parsed.byAllDayObject[sqlDate]) {
-          slotObject[thisEvent.slot] = thisEvent
-          if (thisEvent.slot > maxSlot) {
-            maxSlot = thisEvent.slot
-          }
-        }
-        // now we have it sorted but have to fill in any gaps
-        for (let counter = 0; counter <= maxSlot; counter++) {
-          let tempObject = {}
-          if (dashHas(slotObject, counter)) {
-            // this element exists
-            tempObject = this.getEventById(slotObject[counter].id)
-            for (let thisField of transferFields) {
-              tempObject[thisField] = slotObject[counter][thisField]
-            }
-          }
-          else {
-            // this is an empty slot
-            tempObject = {
-              slot: counter,
-              start: {
-                isAllDay: true,
-                isEmptySlot: true
-              }
-            }
-          }
-          if (skipSlotIndicators && tempObject.slot) {
-            // bypass this - we don't want slot indicators
-          }
-          else {
-            returnArray.push(tempObject)
-          }
-        }
-      }
 
       if (hasEvents) {
         for (let thisEvent of this.parsed.byStartDate[sqlDate]) {
@@ -106,7 +65,6 @@ export default {
     },
     // 解析事件（日志）
     parseEventList: function () {
-      debugger
       this.clearParsed()
       for (let event of this.eventArray) {
         this.parsed.byId[event.id] = event
@@ -126,127 +84,12 @@ export default {
           this.parsed.byStartDate[thisStartDate] = []
         }
         this.parsed.byStartDate[thisStartDate].push(event.id)
-
-        // if (dashHas(event.start, 'date')) {
-        //   event.start['dateObject'] = this.moveToDisplayZone(
-        //     DateTime.fromISO(event.start.date).startOf('day')
-        //   )
-        //   event.end['dateObject'] = this.moveToDisplayZone(
-        //     DateTime.fromISO(event.end.date).endOf('day')
-        //   )
-        //   event.start['isAllDay'] = true
-        //   event['durationDays'] = Math.ceil(
-        //     event.end.dateObject
-        //       .diff(event.start.dateObject)
-        //       .as('days')
-        //   )
-        // }
-        // else {
-        // }
-        // // get all-day events deprecated
-        // if (event.start.isAllDay) {
-        //   for (let dayAdd = 0; dayAdd < event.durationDays; dayAdd++) {
-        //     let innerStartDate = event.start.dateObject
-        //       .plus({days: dayAdd})
-        //       .toISODate()
-        //     if (!dashHas(this.parsed.byAllDayStartDate, innerStartDate)) {
-        //       this.parsed.byAllDayStartDate[innerStartDate] = []
-        //     }
-        //     this.parsed.byAllDayStartDate[innerStartDate].push(event.id)
-        //     // newer all-day events routine
-        //     if (!dashHas(this.parsed.byAllDayObject, innerStartDate)) {
-        //       this.parsed.byAllDayObject[innerStartDate] = []
-        //     }
-        //
-        //     this.parsed.byAllDayObject[innerStartDate].push({
-        //       id: event.id,
-        //       hasPrev: (dayAdd > 0),
-        //       hasNext: (dayAdd < (event.durationDays - 1)),
-        //       hasPreviousDay: (dayAdd > 0),
-        //       hasNextDay: (dayAdd < (event.durationDays - 1)),
-        //       durationDays: event.durationDays,
-        //       startDate: event.start.dateObject,
-        //       daysFromStart: dayAdd
-        //     })
-        //   }
-        // }
-
-        // get events with a start and end time
-        // else {
-        //
-        // }
       }
-      debugger
       let that = this
       Object.keys(this.parsed.byStartDate).forEach(k => {
         that.parsed.byStartDate[k] = that.sortDateEvents(that.parsed.byStartDate[k])
-        debugger
         that.parseDateEvents(that.parsed.byStartDate[k])
       })
-      console.log(this.parsed.byStartDate)
-      // // sort all day events
-      // for (let thisDate in this.parsed.byAllDayObject) {
-      //   this.parsed.byAllDayObject[thisDate].sort(this.sortPairOfAllDayObjects)
-      // }
-      // this.buildAllDaySlotArray()
-
-    },
-
-    buildAllDaySlotArray: function () {
-      let slotAssignments = {}
-
-      let dateArray = Object.keys(this.parsed.byAllDayObject).sort()
-      for (let thisDate of dateArray) {
-        if (!dashHas(slotAssignments, thisDate)) {
-          slotAssignments[thisDate] = {}
-        }
-
-        // go through each element on that date
-        for (let thisAllDayObject of this.parsed.byAllDayObject[thisDate]) {
-          if (!dashHas(thisAllDayObject, 'slot')) {
-            let thisEventId = thisAllDayObject.id
-            // find the first empty slot in the first day
-            let slotToUse = 0
-            let slotFound = false
-            while (!slotFound) {
-              if (dashHas(slotAssignments[thisDate], slotToUse)) {
-                slotToUse++
-              }
-              else {
-                slotFound = true
-              }
-            }
-            // now fill that slot for each successive day
-            for (let dayAdd = 0; dayAdd < thisAllDayObject.durationDays; dayAdd++) {
-              let innerStartDate = DateTime.fromISO(thisDate + 'T00:00:00')
-                .plus({days: dayAdd})
-                .toISODate()
-              if (!dashHas(slotAssignments, innerStartDate)) {
-                slotAssignments[innerStartDate] = {}
-              }
-              slotAssignments[innerStartDate][slotToUse] = thisEventId
-              // go through each element on that date
-              for (let thisDateElementIndex in this.parsed.byAllDayObject[innerStartDate]) {
-                let thisDateElement = this.parsed.byAllDayObject[innerStartDate][thisDateElementIndex]
-                if (thisDateElement.id === thisEventId) {
-                  this.parsed.byAllDayObject[innerStartDate][thisDateElementIndex]['slot'] = slotToUse
-                  break
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-
-    sortPairOfAllDayObjects: function (a, b) {
-      if (a.daysFromStart < b.daysFromStart) return 1
-      if (a.daysFromStart > b.daysFromStart) return -1
-      // okay, so daysFromStart are equal, now look at duration
-      if (a.durationDays > b.durationDays) return 1
-      if (a.durationDays < b.durationDays) return -1
-      // daysFromStart are equal, so just take the first one
-      return 0
     },
 
     sortPairOfDateEvents: function (a, b) {
@@ -257,7 +100,6 @@ export default {
     },
 
     sortDateEvents: function (eventArray) {
-      debugger
       let tempArray = []
       for (let eventId of eventArray) {
         tempArray.push(this.parsed.byId[eventId])
@@ -313,7 +155,6 @@ export default {
         (event1.end.dateObject >= event2.start.dateObject)
     },
     getPassedInParsedEvents: function () {
-      debugger
       this.parsed = defaultParsed
       if (
         this.parsedEvents !== undefined &&
@@ -371,6 +212,10 @@ export default {
           this.parseEventList()
         }
       }
+    },
+    handleEventDelete(eventObject) {
+    //   todo
+
     }
   },
   mounted() {

@@ -106,22 +106,14 @@ export default {
       if (numberOfDays === undefined) {
         if (this.numberOfDays !== undefined) {
           numberOfDays = this.numberOfDays
-        }
-        else if (this.numDays !== undefined) {
+        } else if (this.numDays !== undefined) {
           numberOfDays = this.numDays
-        }
-        else {
+        } else {
           numberOfDays = 7
         }
       }
-      if (this.forceStartOfWeek) {
-        this.weekDateArray = this.getForcedWeekDateArray(numberOfDays, sundayFirstDayOfWeek)
-      }
-      else {
-        this.weekDateArray = this.getWeekDateArray(numberOfDays)
-      }
+      this.weekDateArray = this.forceStartOfWeek ? this.getForcedWeekDateArray(numberOfDays, sundayFirstDayOfWeek) : this.getWeekDateArray(numberOfDays)
     },
-    // todo  数天的时候 此处会有 bug 待解决
     getForcedWeekBookendDates: function (numberOfDays, sundayFirstDayOfWeek) {
       if (numberOfDays === undefined) {
         numberOfDays = 7
@@ -159,22 +151,10 @@ export default {
       return returnArray
     },
     formatTimeFromNumber: function (hourNumber) {
-      // TODO: this should be able to handle 24 hour and alternate time formats
       let tempDate = this.makeDT(DateTime.fromObject({hour: hourNumber}))
-      let localeFormattedHour = tempDate.toLocaleString(DateTime.TIME_SIMPLE)
-      return localeFormattedHour
-        .replace(/:[0-9][0-9]/, '')
-        .replace(' ', '')
-        .toLowerCase()
-    },
-    simplifyTimeFormat: function (timeString, removeMeridiem) {
-      if (removeMeridiem) {
-        timeString = timeString.replace(/[AP]M/i, '')
-      }
-      return timeString
-        .replace(':00', '')
-        .replace(' ', '')
-        .toLowerCase()
+      // 24小时制
+      let formattedHour = tempDate.toFormat('H')
+      return formattedHour + (tempDate.toFormat('a') === '上午' ? ' am' : ' pm')
     },
     moveTimePeriod: function (params) {
       let paramObj = {}

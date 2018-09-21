@@ -11,7 +11,7 @@
           @click="leftDrawer = !leftDrawer"
         />
         <q-toolbar-title>
-          我的工时
+          我的众越
         </q-toolbar-title>
         <q-btn flat dense icon="fullscreen"/>
       </q-toolbar>
@@ -67,7 +67,7 @@
     },
     data() {
       return {
-        leftDrawer: true,
+        leftDrawer: false,
         activeAsideCom: 'Stat'
       }
     }

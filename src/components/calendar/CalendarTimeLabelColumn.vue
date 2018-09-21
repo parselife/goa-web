@@ -13,7 +13,8 @@
 
 <script>
   import CalendarMixin from './mixins/CalendarMixin'
-  const { DateTime } = require('luxon')
+
+  const {DateTime} = require('luxon')
   export default {
     name: 'CalendarTimeLabelColumn',
     props: {
@@ -23,17 +24,20 @@
       },
       calendarLocale: {
         type: String,
-        default: () => { return DateTime.local().locale }
+        default: () => {
+          return DateTime.local().locale
+        }
       }
     },
     components: {},
     mixins: [CalendarMixin],
-    data () {
+    data() {
       return {}
     },
     computed: {},
     methods: {},
-    mounted () {}
+    mounted() {
+    }
   }
 </script>
 

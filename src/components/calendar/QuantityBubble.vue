@@ -1,6 +1,6 @@
 <template>
   <div
-    class="quantity-bubble-holder"
+    class="quantity-bubble-holder q-mb-sm"
     v-if="quantity > 0"
   >
     &nbsp;

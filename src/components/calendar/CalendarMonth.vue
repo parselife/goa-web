@@ -266,6 +266,10 @@
         'update-event-' + this.eventRef,
         this.handleEventUpdate
       )
+      this.$root.$on(
+        'delete-event-' + this.eventRef,
+        this.handleEventDelete
+      )
     },
     watch: {
       startDate: 'handleStartChange',

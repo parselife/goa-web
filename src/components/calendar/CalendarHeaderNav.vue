@@ -1,6 +1,6 @@
 <template>
-  <div class="calendar-header col-auto row justify-between items-center">
-    <div class="calendar-header-left col-auto">
+  <div class="calendar-header col-auto row justify-center items-center">
+    <div class="calendar-header-left col-auto q-mr-lg">
       <q-btn
         @click="doMoveTimePeriod(timePeriodUnit, -timePeriodAmount)"
         icon="chevron_left"
@@ -13,7 +13,7 @@
     <div class="calendar-header-label">
       <slot/>
     </div>
-    <div class="calendar-header-right col-auto">
+    <div class="calendar-header-right col-auto q-ml-lg">
       <q-btn
         @click="doMoveTimePeriod(timePeriodUnit, timePeriodAmount)"
         icon="chevron_right"

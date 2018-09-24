@@ -74,7 +74,12 @@ module.exports = function (ctx) {
         'QCheckbox',
         'QDatetime',
         'QFab',
-        'QFabAction'
+        'QFabAction',
+        'QTable',
+        'QTh',
+        'QTr',
+        'QTd',
+        'QTableColumns'
       ],
       directives: [
         'Ripple'

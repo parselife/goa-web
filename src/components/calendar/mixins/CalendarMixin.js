@@ -29,7 +29,16 @@ export default {
         eventObject
       )
     },
+    //  触发添加事件的方法
+    triggerEventAdd(eventRef) {
+      this.$root.$emit(
+        'click-event-' + eventRef,
+        {}
+      )
+
+    },
     handleEventDetailEvent: function (params, thisRef) {
+      debugger
       if (!this.preventEventDetail) {
         if (thisRef === undefined) {
           thisRef = 'defaultEventDetail'
@@ -79,7 +88,8 @@ export default {
         return this.makeDT(dateObject).toFormat(formatString)
       }
     },
-    dateAdjustWeekday(thisDateObject, weekdayNum) {
+    dateAdjustWeekday(thisDateObject, weekdayNum, firstDay) {
+   
       thisDateObject = this.makeDT(thisDateObject)
       let checkDate = DateTime.local()
       let adjustForward = true
@@ -90,7 +100,7 @@ export default {
           weekdayNum = 7
         }
       }
-      for (let counter = 1; counter <= 7; counter++) {
+      for (let counter = 0; counter <= 6; counter++) {
         if (adjustForward) {
           checkDate = thisDateObject.plus({days: counter})
         }
@@ -127,7 +137,7 @@ export default {
       else {
         return {
           first: this.dateAdjustWeekday(this.workingDate, -1),
-          last: this.dateAdjustWeekday(this.workingDate, numberOfDays)
+          last: this.dateAdjustWeekday(this.workingDate, numberOfDays, this.dateAdjustWeekday(this.workingDate, -1))
         }
       }
     },

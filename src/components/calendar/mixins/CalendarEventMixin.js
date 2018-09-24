@@ -214,8 +214,13 @@ export default {
       }
     },
     handleEventDelete(eventObject) {
-    //   todo
+    //   todo 删除事件
 
+    },
+    handleEventAdd(dateObject) {
+      // todo 添加事件
+      // 
+      
     }
   },
   mounted() {

@@ -368,8 +368,9 @@
 
   .calendar-event-detail
     .modal-content
-      min-width 360px
+      min-width 400px
       min-height 220px
+      overflow hidden
     .ced-list-title
       font-size 1em
       max-width 30rem

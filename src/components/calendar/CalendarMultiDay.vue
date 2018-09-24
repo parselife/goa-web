@@ -211,7 +211,7 @@
       )
       this.$root.$on(
         'delete-event-' + this.eventRef,
-        this.handleEventDelete()
+        this.handleEventDelete
       )
     },
     watch: {

@@ -3,37 +3,44 @@
     <!-- 头部 -->
     <q-layout-header class="no-shadow">
       <q-toolbar>
-        <q-btn
+        <!-- <q-btn
           flat
           round
           dense
           icon="menu"
           @click="leftDrawer = !leftDrawer"
-        />
-        <q-toolbar-title>
-          WH
-          <q-tabs class="q-ml-xl">
+        /> -->
+        <q-toolbar-title class="col-auto q-mr-xl">
+          WH &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </q-toolbar-title>
+        <q-tabs class="q-ml-xl col">
             <q-route-tab
-              icon="mail"
-              to="/mails"
+              label="我的工时"
+              to="/main"
               exact
               slot="title"
             />
             <q-route-tab
-              icon="alarm"
-              to="/alarms"
+              label="系统设置"
+              to="/setting"
+              exact
+              slot="title"
+            />
+          <!-- 管理员页面 -->
+             <q-route-tab
+              label="系统管理"
+              to="/admin"
               exact
               slot="title"
             />
           </q-tabs>
-        </q-toolbar-title>
 
         <q-btn flat dense icon="fullscreen"/>
       </q-toolbar>
     </q-layout-header>
 
     <!--左侧功能栏-->
-    <q-layout-drawer
+    <!-- <q-layout-drawer
       side="left"
       v-model="leftDrawer">
       <component :is="activeAsideCom"></component>
@@ -54,15 +61,8 @@
           to="main"
           replace
         />
-
-        <!--<q-route-tab-->
-          <!--slot="title"-->
-          <!--icon="assignment"-->
-          <!--name="Setting"-->
-          <!--to="setting"-->
-          <!--replace/>-->
       </q-tabs>
-    </q-layout-drawer>
+    </q-layout-drawer> -->
 
     <!--中间页面-->
     <q-page-container>

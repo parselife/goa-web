@@ -39,7 +39,8 @@
     data() {
       return {
         opened: false,
-        fields: []
+        fields: [],
+        primaryKey: undefined
       }
     },
     methods: {
@@ -47,8 +48,9 @@
         console.log(val)
 
       },
-      _open(fields) {
+      _open(fields, pk) {
         this.fields = fields
+        this.primaryKey = pk
         this.opened = true
       },
       _close() {
@@ -73,6 +75,9 @@
           }
         })
         debugger
+        if (this.primaryKey !== undefined) {
+          model.id = this.primaryKey
+        }
         console.log('提交数据: %o', model)
         this.$root.$emit('event-save-' + this.formRef, model)
       }

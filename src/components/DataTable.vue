@@ -161,7 +161,7 @@
         let row = this.selected[0]
         if (row !== undefined) {
           console.log('编辑数据: %o', row)
-          this.$refs[this.formRef]._open(this.provideFields(row))
+          this.$refs[this.formRef]._open(this.provideFields(row), row.id)
         }
       },
       provideFields(rowData) {

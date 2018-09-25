@@ -5,7 +5,9 @@ module.exports = function (ctx) {
     // app plugins (/src/plugins)
     plugins: [
       'axios',
-      'router'
+      'router',
+      'mock',
+      'alert'
     ],
     css: [
       'app.styl'
@@ -38,6 +40,15 @@ module.exports = function (ctx) {
       // https: true,
       port: 8088,
       open: true // opens browser window automatically
+      // proxy: {
+      //   '/rest': {
+      //     target: 'http://localhost:8080',
+      //     changeOrigin: true
+      //     // pathRewrite: {
+      //     //   '^/scms': ''
+      //     // }
+      //   }
+      // }
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: {
@@ -79,7 +90,17 @@ module.exports = function (ctx) {
         'QTh',
         'QTr',
         'QTd',
-        'QTableColumns'
+        'QTableColumns',
+        'QChip',
+        'QInnerLoading',
+        'QSpinnerGears',
+        'QCard',
+        'QCardTitle',
+        'QCardMain',
+        'QCardMedia',
+        'QCardSeparator',
+        'QCardActions',
+        'QSelect'
       ],
       directives: [
         'Ripple'
@@ -87,7 +108,8 @@ module.exports = function (ctx) {
       // Quasar plugins
       plugins: [
         'Notify',
-        'Dialog'
+        'Dialog',
+        'Cookies'
       ],
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
       i18n: 'zh-hans' // Quasar language

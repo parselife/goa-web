@@ -1,61 +1,40 @@
 <template>
   <q-page class="q-pa-md">
-        <q-table
-     :loading="loading"
-    :data="tableData"
-    :columns="columns"
-    row-key="name"
-    hide-bottom
-  />
+    <data-table end-point="organ" :columns="columns"/>
   </q-page>
 </template>
 
 <script>
-export default {
-  data: () => ({
-    loading: false,
-    columns: [
-      {
-        name: "name",
-        required: true,
-        label: "Name",
-        align: "left",
-        field: "calcium",
-        sortable: true
-      },
-      {
-        name: "organ",
-        required: true,
-        label: "部门",
-        align: "left",
-        sortable: true,
-        field: row => row.organ.name,
-        // format: val => `${val}%`
-      }
-    ],
-    tableData: [
-    ]
-  }),
-  watch: {
-    $route: "fetchData"
-  },
-  created() {
-    this.fetchData()
-  },
-  methods: {
-    fetchData() {
-      this.loading = true;
-      this.$axios
-        .get("/rest/organs")
-        .then(({ data }) => {
-          // todo
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    }
+  import {DataTable} from '../../components'
+
+  export default {
+    components: {
+      DataTable
+    },
+    data: () => ({
+      columns: [
+        {
+          name: "name",
+          required: true,
+          label: "部门名称",
+          align: "left",
+          field: "name",
+          sortable: true,
+          editable: true
+        },
+        {
+          name: "desc",
+          required: true,
+          label: "职责描述",
+          align: "left",
+          field: 'desc',
+          editable: true,
+          type: 'textarea'
+        }
+      ]
+    }),
+    methods: {}
   }
-}
 </script>
 
 <style>

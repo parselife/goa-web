@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start": "quasar dev -t mat",
-    "build": "quasar build -d",
+    "build": "quasar build -t mat",
     "install": "npm install",
     "clean": "quasar clean",
     "lint": "eslint --ext .js,.vue src",
@@ -21,6 +21,7 @@
     "vue-i18n": "^7.8.1"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.15.0",
     "babel-eslint": "^8.2.1",
     "eslint": "^4.18.2",
     "eslint-config-standard": "^11.0.0",

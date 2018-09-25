@@ -1,8 +1,5 @@
 <template>
   <q-page class="justify-center">
-    <div class="row justify-center">
-      <img alt="Quasar logo" src="~assets/quasar-logo-full.svg">
-    </div>
   <div class="row justify-center q-mt-lg">
     <q-alert
       avatar="statics/logo.png"

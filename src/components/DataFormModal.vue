@@ -15,13 +15,21 @@
                     :float-label="item.label"
                     :options="item.options"
           />
+          <q-input
+            v-else-if="item.type==='textarea'"
+            v-model.trim="item.value"
+            type="textarea"
+            :max-height="100"
+            rows="2"
+            :float-label="item.label"
+            class="no-shadow"/>
           <q-input v-else
-                   v-model="item.value"
+                   v-model.trim="item.value"
                    :float-label="item.label"
                    :type="item.type||'text'"/>
         </template>
       </q-card-main>
-      <q-card-separator/>
+      <!--<q-card-separator/>-->
       <q-card-actions class="row justify-center q-ma-sm">
         <q-btn color="primary" label="提交" class="q-mr-md" @click="okHandle"/>
         <q-btn label="取消" @click="opened=false"/>
@@ -31,6 +39,8 @@
 </template>
 
 <script>
+  const needValidateFieldNames = ['name', 'password', 'displayName', 'alias']
+
   export default {
     props: {
       title: String,
@@ -56,13 +66,17 @@
       _close() {
         this.opened = false
       },
-      // 组织对象数据 触发事件
+      /**
+       * 组织对象数据 触发事件
+       */
       okHandle() {
         let model = {}
+        let isValid = true
         this.fields.forEach(field => {
           let val = field.value
           let name = field.name
-          if (val !== undefined && val !== '') {
+          isValid = isValid && this.validate(field)
+          if (isValid && val !== '') {
             let tmp = name.split(".")
             if (tmp.length === 1) {
               model[tmp[0]] = val
@@ -74,12 +88,28 @@
             }
           }
         })
-        debugger
-        if (this.primaryKey !== undefined) {
-          model.id = this.primaryKey
+        if (isValid) {
+          if (this.primaryKey !== undefined) {
+            model.id = this.primaryKey
+          }
+          console.log('提交数据: %o', model)
+          this.$root.$emit('event-save-' + this.formRef, model)
         }
-        console.log('提交数据: %o', model)
-        this.$root.$emit('event-save-' + this.formRef, model)
+      },
+      /**
+       * 非空字段简单验证
+       */
+      validate(f) {
+        let fName = f.name
+        let fVal = f.value
+        let fLbl = f.label
+        if (needValidateFieldNames.findIndex(n => n === fName) > -1) {
+          if (fVal === undefined || fVal === '') {
+            this.$alert.negative(`${fLbl} 不可为空!`)
+            return false
+          }
+        }
+        return true
       }
     }
   }

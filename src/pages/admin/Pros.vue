@@ -51,7 +51,8 @@
           label: "项目描述",
           align: "left",
           field: 'desc',
-          editable: true
+          editable: true,
+          type: 'textarea'
         },
         {
           name: "createAt",

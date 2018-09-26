@@ -10,6 +10,129 @@ export default ({app, router, Vue}) => {
   }
 }
 
+const joblogs = [
+  {
+    "id": 1,
+    "user": {
+      "id": 1,
+      "organ": {
+        "id": 1,
+        "name": "研发部",
+        "desc": "负责研发工作"
+      },
+      "name": "admin",
+      "password": "c4ca4238a0b923820dcc509a6f75849b",
+      "displayName": "Alex",
+      "enabled": false,
+      "isAdmin": true,
+      "createAt": "2018-09-25 09:40:13",
+      "updateAt": "2018-09-25 09:40:13"
+    },
+    "project": {
+      "id": 1,
+      "name": "学校管理系统",
+      "status": 2,
+      "desc": "正在进行中 第一个版本已发布",
+      "createAt": "2018-09-19 17:59:50",
+      "updateAt": "2018-09-19 18:00:45"
+    },
+    "type": {
+      "id": 4,
+      "name": "code",
+      "alias": "编码",
+      "desc": "写代码",
+      "createAt": "2018-09-19 17:55:50",
+      "updateAt": "2018-09-19 17:55:50"
+    },
+    "title": "写代码",
+    "content": "详细地写代码",
+    "startTime": "2018-09-19T13:56:50+08:00",
+    "endTime": "2018-09-19T17:56:50+08:00",
+    "createAt": "2018-09-26 09:58:51",
+    "updateAt": "2018-09-26 09:58:51"
+  },
+  {
+    "id": 3,
+    "user": {
+      "id": 1,
+      "organ": {
+        "id": 1,
+        "name": "研发部",
+        "desc": "负责研发工作"
+      },
+      "name": "admin",
+      "password": "c4ca4238a0b923820dcc509a6f75849b",
+      "displayName": "Alex",
+      "enabled": false,
+      "isAdmin": true,
+      "createAt": "2018-09-25 09:40:13",
+      "updateAt": "2018-09-25 09:40:13"
+    },
+    "project": {
+      "id": 4,
+      "name": "救援应急云平台",
+      "status": 0,
+      "desc": "正在进行中 第一个版本已发布",
+      "createAt": "2018-09-19 18:01:18",
+      "updateAt": "2018-09-19 18:01:18"
+    },
+    "type": {
+      "id": 5,
+      "name": "design",
+      "alias": "设计",
+      "desc": "UI设计等",
+      "createAt": "2018-09-19 17:56:17",
+      "updateAt": "2018-09-19 17:56:17"
+    },
+    "title": "页面设计",
+    "content": "详细地设计页面",
+    "startTime": "2018-09-26T09:00:00+08:00",
+    "endTime": "2018-09-26T11:20:00+08:00",
+    "createAt": "2018-09-26 10:50:35",
+    "updateAt": "2018-09-26 10:50:35"
+  },
+  {
+    "id": 2,
+    "user": {
+      "id": 1,
+      "organ": {
+        "id": 1,
+        "name": "研发部",
+        "desc": "负责研发工作"
+      },
+      "name": "admin",
+      "password": "c4ca4238a0b923820dcc509a6f75849b",
+      "displayName": "Alex",
+      "enabled": false,
+      "isAdmin": true,
+      "createAt": "2018-09-25 09:40:13",
+      "updateAt": "2018-09-25 09:40:13"
+    },
+    "project": {
+      "id": 4,
+      "name": "救援应急云平台",
+      "status": 0,
+      "desc": "正在进行中 第一个版本已发布",
+      "createAt": "2018-09-19 18:01:18",
+      "updateAt": "2018-09-19 18:01:18"
+    },
+    "type": {
+      "id": 5,
+      "name": "design",
+      "alias": "设计",
+      "desc": "UI设计等",
+      "createAt": "2018-09-19 17:56:17",
+      "updateAt": "2018-09-19 17:56:17"
+    },
+    "title": "设计图片",
+    "content": "详细地设计图片",
+    "startTime": "2018-09-26T13:56:50+08:00",
+    "endTime": "2018-09-26T17:56:50+08:00",
+    "createAt": "2018-09-26 10:19:02",
+    "updateAt": "2018-09-26 10:19:02"
+  }
+]
+
 const organs = [
   {
     "id": 1,
@@ -100,6 +223,36 @@ const pros = [
 function setup() {
   let m = new MockAdapter(axiosInstance)
 
+  m.onGet('/user/me').reply(config => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([200,
+          users[0]
+        ])
+      }, 2000)
+    })
+  })
+
+  m.onGet('/rest/jobs').reply(config => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([200,
+          joblogs
+        ])
+      }, 1500)
+    })
+  })
+
+  m.onGet('/rest/job/me').reply(config => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([200,
+          joblogs
+        ])
+      }, 1500)
+    })
+  })
+
   m.onGet('/rest/users').reply(config => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -110,15 +263,15 @@ function setup() {
     })
   })
 
-    m.onPost('/rest/user').reply(config => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve([200,
-            users[0]
-          ])
-        }, 1000)
-      })
+  m.onPost('/rest/user').reply(config => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([200,
+          users[0]
+        ])
+      }, 1000)
     })
+  })
 
   m.onDelete('rest/user/2').reply(config => {
     return new Promise((resolve, reject) => {

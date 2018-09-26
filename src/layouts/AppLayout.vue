@@ -3,38 +3,38 @@
     <!-- 头部 -->
     <q-layout-header class="no-shadow">
       <q-toolbar>
-        <!-- <q-btn
-          flat
-          round
-          dense
-          icon="menu"
-          @click="leftDrawer = !leftDrawer"
-        /> -->
+        <img src="statics/logo.png" style="width: 32px;">
         <q-toolbar-title class="col-auto q-mr-xl">
-          WH &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          众越科技
         </q-toolbar-title>
         <q-tabs class="q-ml-xl col">
-            <q-route-tab
-              label="我的工时"
-              to="/main"
-              exact
-              slot="title"
-            />
-            <q-route-tab
-              label="系统设置"
-              to="/setting"
-              exact
-              slot="title"
-            />
-          <!-- 管理员页面 -->
-             <q-route-tab
-              label="系统管理"
-              to="/admin"
-              exact
-              slot="title"
-            />
-          </q-tabs>
-
+          <q-route-tab
+            v-for="m in routeMenu"
+            :label="m.label"
+            :to="m.path"
+            exact
+            slot="title"
+          />
+        </q-tabs>
+        <q-btn-dropdown v-if="loginUser.hasOwnProperty('displayName')"
+                        :label="loginUser.displayName"
+                        no-caps
+                        no-wrap
+                        no-ripple
+                        flat>
+          <q-list no-border link>
+            <q-item style="font-size: .8rem" to="/setting">
+              <q-item-main>
+                系统设置
+              </q-item-main>
+            </q-item>
+            <q-item style="font-size: .8rem">
+              <q-item-main tag="a" class="logout-a" href="/logout">
+                退出系统
+              </q-item-main>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
         <q-btn flat dense icon="fullscreen"/>
       </q-toolbar>
     </q-layout-header>
@@ -73,21 +73,73 @@
 </template>
 
 <script>
-  import * as coms from 'components'
+  import {SessionStorage, openURL} from 'quasar'
 
   export default {
-    // name: 'LayoutName',
-    components: {
-      ...coms
-    },
     data() {
       return {
         leftDrawer: false,
-        activeAsideCom: 'Stat'
+        routeMenu: [],
+        isAdmin: false,
+        loginUser: {}
+      }
+    },
+    created() {
+      this.detectUser()
+      this.provideMenus()
+    },
+    watch: {
+      'isAdmin': 'provideMenus'
+    },
+    methods: {
+      logout() {
+        window.location.href = 'http://127.0.0.1:8080/logout'
+      },
+      detectUser() {
+        this.$axios.get('/user/me').then(({data}) => {
+          if (data.hasOwnProperty('success')) {
+            console.warn('get user error: %s', data.msg)
+            return
+          }
+          this.loginUser = data
+          this.isAdmin = data.isAdmin || false
+          if (this.isAdmin) {
+            SessionStorage.set('isAdmin', true)
+          }
+        }).catch(err => {
+          console.error('get user error: %o', err)
+        })
+      },
+      provideMenus() {
+        this.routeMenu = []
+        let routes = this.$router.options.routes.filter(r => r.path !== '*')
+        routes.forEach(r => {
+          let {children} = r
+          if (children !== undefined && children.length > 0) {
+            children.forEach(c => {
+              // 权限过滤
+              if (c.meta !== undefined) {
+                let meta = c.meta
+                if (meta.needAdmin) {
+                  if (this.isAdmin) {
+                    this.routeMenu.push({label: meta.title, path: c.path})
+                  }
+                } else {
+                  this.routeMenu.push({label: meta.title, path: c.path})
+                }
+
+              }
+            })
+          }
+        })
+        console.log('menus: %o', this.routeMenu)
       }
     }
   }
 </script>
 
-<style>
+<style scoped>
+  .logout-a {
+    text-decoration: none;
+  }
 </style>

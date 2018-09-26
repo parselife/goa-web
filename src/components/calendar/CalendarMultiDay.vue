@@ -35,36 +35,31 @@
     </div>
 
     <!-- 中间的展示内容 -->
-    <div class="col">
-      <div class="calendar-day row">
-        <!--左侧的24小时展示列-->
-        <calendar-time-label-column day-cell-height="3rem"/>
-        <!--渲染日志/事件内容-->
-        <div class="calendar-multiple-days col row">
-          <calendar-day-column
-            :day-cell-height="3"
-            v-for="thisDate in weekDateArray"
-            :key="makeDT(thisDate).toISODate()"
-            :start-date="thisDate"
-            :date-events="dateGetEvents(thisDate, true)"
-            column-css-class="calendar-day-column-content"
-            :style="{ 'width': dayCellWidth }"
-            :event-ref="eventRef"
-            :prevent-event-detail="preventEventDetail"
-            :allow-editing="allowEditing"
-          />
+    <q-scroll-area :style="getScrollStyle"
+                   :thumb-style="scrollThumbStyle"
+                   :delay="1500">
+      <div class="col">
+        <div class="calendar-day row">
+          <!--左侧的24小时展示列-->
+          <calendar-time-label-column day-cell-height="3rem"/>
+          <!--渲染日志/事件内容-->
+          <div class="calendar-multiple-days col row">
+            <calendar-day-column
+              :day-cell-height="3"
+              v-for="thisDate in weekDateArray"
+              :key="makeDT(thisDate).toISODate()"
+              :start-date="thisDate"
+              :date-events="dateGetEvents(thisDate, true)"
+              column-css-class="calendar-day-column-content"
+              :style="{ 'width': dayCellWidth }"
+              :event-ref="eventRef"
+              :prevent-event-detail="preventEventDetail"
+              :allow-editing="allowEditing"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <!--<q-scroll-area-->
-      <!--:style="getScrollStyle"-->
-      <!--:class="getScrollClass"-->
-      <!--class="relative-position"-->
-    <!--&gt;-->
-      <!---->
-
-    <!--</q-scroll-area>-->
-
+    </q-scroll-area>
     <calendar-event-detail
       ref="defaultEventDetail"
       v-if="!preventEventDetail"
@@ -109,15 +104,17 @@
         type: String,
         default: 'rem'
       },
-      scrollStyle: {
+      scrollThumbStyle: {
         type: Object,
         default: function () {
-          return {}
+          return {
+            right: '2px',
+            borderRadius: '2px',
+            background: '#027be3',
+            width: '4px',
+            opacity: .7
+          }
         }
-      },
-      scrollHeight: {
-        type: String,
-        default: 'auto'
       },
       fullComponentRef: String
     },
@@ -143,24 +140,9 @@
       dayCellWidth: function () {
         return this.calculateDayCellWidth(this.numDays)
       },
-      getScrollStyle: function () {
-        if (this.scrollStyle.length > 0) {
-          return this.scrollStyle
-        }
-        else {
-          return {
-            'height': this.scrollHeight
-          }
-        }
-      },
-      getScrollClass: function () {
-        if (this.scrollHeight === 'auto') {
-          return {
-            'col': true
-          }
-        }
-        else {
-          return {}
+      getScrollStyle() {
+        return {
+          'height': (window.innerHeight - 236) + 'px'
         }
       }
     },
@@ -177,11 +159,13 @@
           label += bookendDates.last.toFormat('MM.dd')
         }
         return label
-      },
+      }
+      ,
       doUpdate: function () {
         this.mountSetDate()
         this.buildWeekDateArray(this.numDays, this.sundayFirstDayOfWeek)
-      },
+      }
+      ,
       handleNavMove: function (unitType, amount) {
         this.moveTimePeriod(unitType, amount)
         this.$emit(
@@ -193,7 +177,8 @@
         )
         this.buildWeekDateArray()
       }
-    },
+    }
+    ,
     mounted() {
       this.doUpdate()
       this.handlePassedInEvents()
@@ -213,11 +198,14 @@
         'delete-event-' + this.eventRef,
         this.handleEventDelete
       )
-    },
+    }
+    ,
     watch: {
       startDate: 'handleStartChange',
-      eventArray: 'getPassedInEventArray',
-      parsedEvents: 'getPassedInParsedEvents'
+      eventArray:
+        'getPassedInEventArray',
+      parsedEvents:
+        'getPassedInParsedEvents'
     }
   }
 </script>

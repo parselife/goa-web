@@ -16,7 +16,7 @@
         <q-chip v-else dense color="grey" tag>普通用户</q-chip>
       </q-td>
       <!--操作按钮-->
-      <template slot="top" slot-scope="props">
+      <template slot="top" slot-scope="props" v-if="!hideTop">
         <q-btn color="primary" flat round icon="add" @click="openForm"/>
         <q-btn color="primary" flat round icon="edit" @click="openDetail"/>
         <q-btn color="negative" flat round delete icon="delete"
@@ -34,7 +34,9 @@
         </div>
       </template>
     </q-table>
-    <data-form-modal :ref="formRef" title="添加用户" :form-ref="formRef"/>
+    <data-form-modal :ref="formRef"
+                     :form-ref="formRef"
+                     :title="modalTitleProvider"/>
     <q-inner-loading :visible="requestLoading">
       <q-spinner-gears size="50px" color="teal"></q-spinner-gears>
       <span class="q-mt-sm" style="color: #009688">通信中...</span>
@@ -45,6 +47,12 @@
 <script>
   import DataFormModal from './DataFormModal'
 
+  const nameMapper = {
+    user: '用户',
+    pro: '项目',
+    type: '类型',
+    organ: '部门'
+  }
   export default {
     components: {
       DataFormModal
@@ -63,6 +71,11 @@
       selection: {
         type: String,
         default: 'single'
+      },
+      // 是否隐藏头部按钮
+      hideTop: {
+        type: Boolean,
+        default: false
       }
     },
     data: () => ({
@@ -72,7 +85,9 @@
       tableData: [],
       // 表单是否打开
       formOpened: false,
-      requestLoading: false
+      requestLoading: false,
+      // edit/create
+      opt: undefined
     }),
     computed: {
       formRef() {
@@ -82,6 +97,9 @@
         return this.columns.map(c => {
           return c.visible !== false ? c.name : null
         })
+      },
+      modalTitleProvider() {
+        return (this.opt === 'create' ? '添加' : '编辑') + nameMapper[this.endPoint]
       }
     },
     watch: {
@@ -98,6 +116,9 @@
       })
     },
     methods: {
+      /**
+       * 获取所有数据
+       */
       fetchData() {
         this.selected = []
         this.loading = true;
@@ -116,6 +137,9 @@
             console.error(err)
           })
       },
+      /**
+       * 提交数据到服务端
+       */
       postData(model) {
         this.requestLoading = true
         this.$axios.post(`/rest/${this.endPoint}`, JSON.stringify(model)).then(({data}) => {
@@ -131,27 +155,50 @@
           console.error(err)
         })
       },
+      /**
+       * 删除数据
+       */
       deleteData() {
         if (this.selected.length === 0) {
           this.$alert.warning('至少选择一条数据!')
           return
         }
         let id = this.selected[0].id
-        this.requestLoading = true
-        this.$axios.delete(`/rest/${this.endPoint}/${id}`)
-          .then(({data}) => {
-            this.requestLoading = false
-            this.$alert.positive('删除成功!')
-            this.fetchData()
-          })
-          .catch(err => {
-            console.error(err)
-          })
+        // 删除提示框
+        this.$q.dialog({
+          title: '提示',
+          message: '确认删除',
+          cancel: '再想想',
+          ok: {
+            push: true,
+            label: '确定'
+          },
+          preventClose: true
+        }).then(() => {
+          this.requestLoading = true
+          this.$axios.delete(`/rest/${this.endPoint}/${id}`)
+            .then(({data}) => {
+              this.requestLoading = false
+              this.$alert.positive('删除成功!')
+              this.fetchData()
+            })
+            .catch(err => {
+              console.error(err)
+            })
+        }).catch(() => {
+        })
+
       },
+      /**
+       * 新建对象
+       */
       openForm() {
-        // 打开 新建的表单
+        this.opt = 'create'
         this.$refs[this.formRef]._open(this.provideFields())
       },
+      /**
+       * 编辑对象
+       */
       openDetail() {
         if (this.selected.length === 0) {
           this.$alert.warning('至少选择一条数据!')
@@ -160,6 +207,7 @@
         // 只取第一条选中的数据
         let row = this.selected[0]
         if (row !== undefined) {
+          this.opt = 'edit'
           console.log('编辑数据: %o', row)
           this.$refs[this.formRef]._open(this.provideFields(row), row.id)
         }
@@ -179,7 +227,7 @@
           }
           if (f.hasOwnProperty('options')) {
             f.options = f.options.map(val => {
-              return {label: val.label || val.name, value: val.value || val.ID}
+              return {label: val.label || val.name, value: val.value || val.id}
             })
           }
         })

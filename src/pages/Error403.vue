@@ -6,8 +6,8 @@
         style="width:30vw;max-width:150px;"
       >
     </p>
-    <strong class="q-py-sm">Oops!</strong>
-    <p class="text-faded q-mt-sm">页面未找到 <strong>(404)</strong></p>
+    <strong class="q-py-sm">Forbidden!</strong>
+    <p class="text-faded q-mt-sm"> 貌似权限不足~ <strong>(403)</strong></p>
     <q-btn
       color="secondary"
       style="width:200px;"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-export default {
-  name: 'Error404'
-}
+  export default {
+    name: 'Error403'
+  }
 </script>

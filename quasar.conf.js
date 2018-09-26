@@ -5,7 +5,6 @@ module.exports = function (ctx) {
     // app plugins (/src/plugins)
     plugins: [
       'axios',
-      'router',
       'mock',
       'alert'
     ],
@@ -100,7 +99,8 @@ module.exports = function (ctx) {
         'QCardMedia',
         'QCardSeparator',
         'QCardActions',
-        'QSelect'
+        'QSelect',
+        'QBtnDropdown'
       ],
       directives: [
         'Ripple'
@@ -109,7 +109,8 @@ module.exports = function (ctx) {
       plugins: [
         'Notify',
         'Dialog',
-        'Cookies'
+        'Cookies',
+        'SessionStorage'
       ],
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
       i18n: 'zh-hans' // Quasar language

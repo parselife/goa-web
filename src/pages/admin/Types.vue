@@ -16,17 +16,28 @@
         {
           name: "name",
           required: true,
-          label: "工作类型",
+          label: "名称",
+          align: "left",
+          field: "name",
+          sortable: true,
+          editable: true
+        },
+        {
+          name: "alias",
+          required: true,
+          label: "别名",
           align: "left",
           field: "alias",
-          sortable: true
+          editable: true
         },
         {
           name: "desc",
           required: true,
-          label: "工作描述",
+          label: "描述",
           align: "left",
-          field: 'desc'
+          field: 'desc',
+          editable: true,
+          type: 'textarea'
         },
         {
           name: "createAt",

@@ -29,7 +29,7 @@ export default {
         eventObject
       )
     },
-    //  触发添加事件的方法
+    //  触发添加事件的方法 todo
     triggerEventAdd(eventRef) {
       this.$root.$emit(
         'click-event-' + eventRef,
@@ -38,7 +38,6 @@ export default {
 
     },
     handleEventDetailEvent: function (params, thisRef) {
-      debugger
       if (!this.preventEventDetail) {
         if (thisRef === undefined) {
           thisRef = 'defaultEventDetail'
@@ -89,7 +88,7 @@ export default {
       }
     },
     dateAdjustWeekday(thisDateObject, weekdayNum, firstDay) {
-   
+
       thisDateObject = this.makeDT(thisDateObject)
       let checkDate = DateTime.local()
       let adjustForward = true

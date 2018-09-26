@@ -6,10 +6,8 @@
       <span v-if="showTime" class="calendar-event-start-time">
         {{ formatTime(eventObject.start.dateObject) }}
       </span>
-    <span v-if="monthStyle" class="q-mx-xs">
-      ~
-    </span>
-    <span v-if="monthStyle">
+    <span v-if="monthStyle">~</span>
+    <span v-if="monthStyle" class="q-mr-xs">
        {{ formatTime(eventObject.end.dateObject) }}
     </span>
     <span v-if="isEmptySlot()" class="calendar-event-summary"></span>

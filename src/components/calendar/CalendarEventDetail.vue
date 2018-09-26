@@ -122,7 +122,7 @@
             <q-field icon="card travel">
               <q-input
                 v-model="editEventObject.project.name"
-                float-label="产品"
+                float-label="关联项目"
                 inverted-light
                 :color="fieldColor"
                 class="no-shadow"

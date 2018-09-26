@@ -1,13 +1,9 @@
 <template>
-  <q-page padding>
+  <q-page padding class="setting-page no-shadow">
     <q-btn-toggle
       v-model="model"
       toggle-color="primary"
-      :options="[
-    {label: 'One', value: 'one'},
-    {label: 'Two', value: 'two'},
-    {label: 'Three', value: 'three'}
-  ]"
+      :options="options"
     />
   </q-page>
 </template>
@@ -16,11 +12,14 @@
   export default {
     data() {
       return {
-        model: 'one',
+        model: 'UserProfile',
         options: [
           {
-            label: '',
-            value: ''
+            label: '基本资料',
+            value: 'UserProfile'
+          }, {
+            label: '修改密码',
+            value: 'UserAlter'
           }
         ]
       }
@@ -28,5 +27,9 @@
   }
 </script>
 
-<style>
+<style scoped>
+  .setting-page {
+    padding-left: 16rem !important;
+    padding-right: 16rem !important;
+  }
 </style>

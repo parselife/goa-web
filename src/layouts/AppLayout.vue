@@ -25,7 +25,7 @@
           <q-list no-border link>
             <q-item style="font-size: .8rem" to="/setting">
               <q-item-main>
-                系统设置
+                应用设置
               </q-item-main>
             </q-item>
             <q-item style="font-size: .8rem">
@@ -96,9 +96,9 @@
         window.location.href = 'http://127.0.0.1:8080/logout'
       },
       detectUser() {
-        this.$axios.get('/user/me').then(({data}) => {
+        this.$axios.get('/settings/me').then(({data}) => {
           if (data.hasOwnProperty('success')) {
-            console.warn('get user error: %s', data.msg)
+            console.warn('get settings error: %s', data.msg)
             return
           }
           this.loginUser = data
@@ -107,7 +107,7 @@
             SessionStorage.set('isAdmin', true)
           }
         }).catch(err => {
-          console.error('get user error: %o', err)
+          console.error('get settings error: %o', err)
         })
       },
       provideMenus() {

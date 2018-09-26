@@ -58,7 +58,7 @@
       DataFormModal
     },
     props: {
-      // user/pro/type/organ ...
+      // settings/pro/type/organ ...
       endPoint: String,
       // 数据列
       columns: {

@@ -223,7 +223,7 @@ const pros = [
 function setup() {
   let m = new MockAdapter(axiosInstance)
 
-  m.onGet('/user/me').reply(config => {
+  m.onGet('/settings/me').reply(config => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve([200,
@@ -263,7 +263,7 @@ function setup() {
     })
   })
 
-  m.onPost('/rest/user').reply(config => {
+  m.onPost('/rest/settings').reply(config => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve([200,
@@ -273,7 +273,7 @@ function setup() {
     })
   })
 
-  m.onDelete('rest/user/2').reply(config => {
+  m.onDelete('rest/settings/2').reply(config => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve([200,

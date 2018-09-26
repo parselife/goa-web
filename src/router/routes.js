@@ -15,7 +15,7 @@ const routes = [
         path: '/setting',
         component: () => import('pages/SettingPage.vue'),
         meta: {
-          title: '系统设置'
+          title: '应用设置'
         }
       },
       {

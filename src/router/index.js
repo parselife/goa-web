@@ -27,9 +27,9 @@ export default function (/* { store, ssrContext } */) {
       if (SessionStorage.has(IS_ADMIN)) {
         next()
       } else {
-        axiosInstance.get('/user/me').then(({data}) => {
+        axiosInstance.get('/settings/me').then(({data}) => {
           if (data.hasOwnProperty('success')) {
-            console.warn('get user error: %s', data.msg)
+            console.warn('get settings error: %s', data.msg)
             next({path: '/403', replace: true})
           } else {
             if (data.isAdmin) {
@@ -41,7 +41,7 @@ export default function (/* { store, ssrContext } */) {
           }
 
         }).catch(err => {
-          console.error('get user error: %o', err)
+          console.error('get settings error: %o', err)
           next({path: '/403', replace: true})
         })
       }

@@ -78,6 +78,9 @@
       console.log(DateTime.local().zoneName)
       this.fetchData();
     },
+    mounted() {
+      this.$root.$on('refresh-event', this.fetchData)
+    },
     methods: {
       fetchData() {
         this.loading = true

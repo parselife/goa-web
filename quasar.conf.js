@@ -110,7 +110,8 @@ module.exports = function (ctx) {
         'Notify',
         'Dialog',
         'Cookies',
-        'SessionStorage'
+        'SessionStorage',
+        'Loading'
       ],
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
       i18n: 'zh-hans' // Quasar language

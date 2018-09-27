@@ -97,15 +97,8 @@
         <q-item>
           <q-item-main class="ced-list-title" v-if="isEditingAllowed && inEditMode">
             <q-field icon="bookmark border">
-              <!--<q-input-->
-              <!--v-model="editEventObject.type.alias"-->
-              <!--float-label="工作类型"-->
-              <!--inverted-light-->
-              <!--:color="fieldColor"-->
-              <!--class="no-shadow"-->
-              <!--/>-->
               <q-select
-                v-model="editEventObject.type.alias"
+                v-model="editEventObject.type.id"
                 :options="jobTypes"
                 float-label="工作类型"
                 inverted-light
@@ -130,8 +123,9 @@
         <q-item>
           <q-item-main class="ced-list-title" v-if="isEditingAllowed && inEditMode">
             <q-field icon="card travel">
-              <q-input
-                v-model="editEventObject.project.name"
+              <q-select
+                v-model="editEventObject.project.id"
+                :options="jobPros"
                 float-label="关联项目"
                 inverted-light
                 :color="fieldColor"
@@ -279,6 +273,7 @@
     },
     mounted() {
 
+      this.getData()
     },
     methods: {
 
@@ -289,13 +284,35 @@
         this.modalIsOpen = false
         this.inEditMode = false
       },
-      getTypes() {
-
-        // todo
-      },
-      getPros() {
-
-        // todo
+      getData() {
+        this.$axios
+          .get(`/rest/types`)
+          .then(({data}) => {
+            if (data.hasOwnProperty('success')) {
+              console.warn(data.msg)
+            } else {
+              this.jobTypes = data.map(d => {
+               return Object.assign(d, {label: d.alias, value: d.id})
+              })
+            }
+          })
+          .catch(err => {
+            console.error(err)
+          })
+        this.$axios
+          .get(`/rest/pros`)
+          .then(({data}) => {
+            if (data.hasOwnProperty('success')) {
+              console.warn(data.msg)
+            } else {
+              this.jobPros = data.map(d => {
+                return Object.assign(d, {label: d.name, value: d.id})
+              })
+            }
+          })
+          .catch(err => {
+            console.error(err)
+          })
       },
       startEditMode: function () {
         this.editEventObject = this.eventObject

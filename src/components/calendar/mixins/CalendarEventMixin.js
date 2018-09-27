@@ -1,6 +1,8 @@
 import dashHas from 'lodash/has'
 import {
-  date
+  date,
+  Loading,
+  QSpinnerGears
 } from 'quasar'
 
 const defaultParsed = {
@@ -199,11 +201,9 @@ export default {
       }
     },
 
+    // 更新事件 todo
     handleEventUpdate: function (eventObject) {
-      if (dashHas(this._props, 'fullComponentRef')) {
-        // this component has a calendar parent, so don't move forward
-        return
-      }
+      // todo
       let thisEventId = eventObject.id
       // update eventArray
       for (let thisEventIndex in this.eventArray) {
@@ -214,13 +214,24 @@ export default {
       }
     },
     handleEventDelete(eventObject) {
-    //   todo 删除事件
-
+      if (eventObject.id !== undefined) {
+        Loading.show({spinner: QSpinnerGears, message: '接口通信中...', spinnerColor: 'blue-grey'})
+        this.$axios.delete(`/rest/job/${eventObject.id}`)
+          .then(({data}) => {
+            Loading.hide()
+            this.$alert.positive('删除成功!')
+            this.$root.$emit('refresh-event')
+          }).catch(err => {
+          Loading.hide()
+          this.$alert.warning('删除失败!')
+          console.error(err)
+        })
+      }
     },
     handleEventAdd(dateObject) {
       // todo 添加事件
-      // 
-      
+      //
+
     }
   },
   mounted() {

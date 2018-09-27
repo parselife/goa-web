@@ -223,7 +223,22 @@ const pros = [
 function setup() {
   let m = new MockAdapter(axiosInstance)
 
-  m.onGet('/settings/me').reply(config => {
+  m.onGet('/user/alter').reply(config => {
+    return new Promise((resolve, reject) => {
+      debugger
+      if (config.params.oldPwd != users[0].id) {
+        resolve([200, {success: false, msg:'密码错误'}])
+      }
+      setTimeout(() => {
+        resolve([200,
+          users[0]
+        ])
+      }, 1000)
+    })
+  })
+
+
+  m.onGet('/user/me').reply(config => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve([200,

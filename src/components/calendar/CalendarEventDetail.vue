@@ -97,8 +97,16 @@
         <q-item>
           <q-item-main class="ced-list-title" v-if="isEditingAllowed && inEditMode">
             <q-field icon="bookmark border">
-              <q-input
+              <!--<q-input-->
+              <!--v-model="editEventObject.type.alias"-->
+              <!--float-label="工作类型"-->
+              <!--inverted-light-->
+              <!--:color="fieldColor"-->
+              <!--class="no-shadow"-->
+              <!--/>-->
+              <q-select
                 v-model="editEventObject.type.alias"
+                :options="jobTypes"
                 float-label="工作类型"
                 inverted-light
                 :color="fieldColor"
@@ -111,7 +119,9 @@
               <q-item-tile icon="bookmark border"/>
             </q-item-side>
             <q-item-main class="ced-list-title">
-              {{ eventObject.type.alias }}
+              <q-chip tag color="primary" small>
+                {{ eventObject.type.alias }}
+              </q-chip>
             </q-item-main>
           </template>
         </q-item>
@@ -229,6 +239,10 @@
     mixins: [CalendarMixin],
     data() {
       return {
+        // 所有的工作类型
+        jobTypes: [],
+        // 所有的关联项目/产品
+        jobPros: [],
         modalIsOpen: false,
         inEditMode: false,
         editEventObject: {},
@@ -263,13 +277,25 @@
         return this.allowEditing
       }
     },
+    mounted() {
+
+    },
     methods: {
+
       __open: function () {
         this.modalIsOpen = true
       },
       __close: function () {
         this.modalIsOpen = false
         this.inEditMode = false
+      },
+      getTypes() {
+
+        // todo
+      },
+      getPros() {
+
+        // todo
       },
       startEditMode: function () {
         this.editEventObject = this.eventObject

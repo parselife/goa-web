@@ -92,13 +92,10 @@
       'isAdmin': 'provideMenus'
     },
     methods: {
-      logout() {
-        window.location.href = 'http://127.0.0.1:8080/logout'
-      },
       detectUser() {
-        this.$axios.get('/settings/me').then(({data}) => {
+        this.$axios.get('/user/me').then(({data}) => {
           if (data.hasOwnProperty('success')) {
-            console.warn('get settings error: %s', data.msg)
+            console.warn('get user error: %s', data.msg)
             return
           }
           this.loginUser = data
@@ -107,7 +104,7 @@
             SessionStorage.set('isAdmin', true)
           }
         }).catch(err => {
-          console.error('get settings error: %o', err)
+          console.error('get user error: %o', err)
         })
       },
       provideMenus() {

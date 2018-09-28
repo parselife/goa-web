@@ -179,7 +179,6 @@
       }
     },
     created() {
-      debugger
       this.$root.$on(
         this.eventRef + ':navMovePeriod',
         this.handleNavMove
@@ -198,7 +197,6 @@
       )
     },
     mounted() {
-      debugger
       this.doUpdate()
       this.handlePassedInEvents()
     },

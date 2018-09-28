@@ -17,7 +17,7 @@
           />
         </q-tabs>
         <q-btn-dropdown v-if="loginUser.hasOwnProperty('displayName')"
-                        :label="loginUser.displayName"
+                        :label="profileTitle"
                         no-caps
                         no-wrap
                         no-ripple
@@ -35,7 +35,11 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-        <q-btn flat dense icon="fullscreen"/>
+        <q-btn flat
+               dense
+               :icon="$q.fullscreen.isActive?'fullscreen_exit':'fullscreen'"
+               v-if="$q.fullscreen.isCapable"
+               @click="$q.fullscreen.toggle()"/>
       </q-toolbar>
     </q-layout-header>
 
@@ -90,6 +94,11 @@
     },
     watch: {
       'isAdmin': 'provideMenus'
+    },
+    computed: {
+      profileTitle(){
+        return this.loginUser.displayName + (this.isAdmin?'(管理员)':'')
+      }
     },
     methods: {
       detectUser() {

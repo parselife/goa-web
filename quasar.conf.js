@@ -112,7 +112,8 @@ module.exports = function (ctx) {
         'Dialog',
         'Cookies',
         'SessionStorage',
-        'Loading'
+        'Loading',
+        'AppFullscreen'
       ],
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
       i18n: 'zh-hans' // Quasar language

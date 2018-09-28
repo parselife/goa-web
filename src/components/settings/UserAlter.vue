@@ -27,7 +27,7 @@
         type="password"/>
     </q-field>
     <q-field
-      icon="lock"
+      icon="verified user"
       class="q-mt-lg"
       label="确认密码"
       label-width="2"

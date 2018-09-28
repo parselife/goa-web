@@ -24,18 +24,37 @@ export default {
       return dateObject
     },
     triggerEventClick: function (eventObject, eventRef) {
+      debugger
       this.$root.$emit(
         'click-event-' + eventRef,
         eventObject
       )
     },
     //  触发添加事件的方法 todo
-    triggerEventAdd(eventRef) {
-      this.$root.$emit(
-        'click-event-' + eventRef,
-        {}
-      )
-
+    triggerEventAdd(eventRef, hitDate, hitHour) {
+      let newEvent = {
+        project: {},
+        type: {},
+        start: {},
+        end: {},
+        allowEditing: true,
+        startEditNow: true
+      }
+      if (this.isMonthView === true) {
+        // 月视图下 从 09:00 开始计时
+        newEvent.start.dateObject = hitDate.plus({hours: 9})
+        newEvent.end.dateObject = hitDate.plus({hours: 18})
+      } else {
+        newEvent.start.dateObject = DateTime.fromObject({
+          year: hitDate.year,
+          month: hitDate.month,
+          day: hitDate.day,
+          hour: hitHour-1
+        })
+        newEvent.end.dateObject = newEvent.start.dateObject.plus({hours: 1})
+      }
+      this.$root.$emit('click-event-' + eventRef,
+        newEvent)
     },
     handleEventDetailEvent: function (params, thisRef) {
       if (!this.preventEventDetail) {
@@ -45,8 +64,7 @@ export default {
         this.eventDetailEventObject = params
         if (dashHas(this.$refs, thisRef + '.__open')) {
           this.$refs[thisRef].__open()
-        }
-        else if (dashHas(this, thisRef + '.__open')) {
+        } else if (dashHas(this, thisRef + '.__open')) {
           this[thisRef].__open()
         }
       }
@@ -66,11 +84,9 @@ export default {
       }
       else if (dashHas(this, colorName)) {
         return this[colorName]
-      }
-      else if (colorName === 'textColor') {
+      } else if (colorName === 'textColor') {
         return 'white'
-      }
-      else {
+      } else {
         return 'primary'
       }
     },

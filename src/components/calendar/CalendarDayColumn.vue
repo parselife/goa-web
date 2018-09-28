@@ -5,10 +5,11 @@
       v-for="thisHour in 24"
       :key="thisHour"
       :style="getCellStyle"
+      class="day-hour"
+      @click="triggerEventAdd(eventRef, startDate, thisHour)"
     >
-      <div class="calendar-day-time-content cursor-pointer"></div>
+      <div class="calendar-day-time-content"></div>
     </div>
-
     <!-- events -->
     <div
       v-if="dateEvents.length > 0"
@@ -23,7 +24,6 @@
         :allow-editing="allowEditing"
       />
     </div>
-
   </div>
 </template>
 
@@ -172,7 +172,6 @@
     mounted() {
       this.mountSetDate()
       console.log(this.dateEvents)
-
     }
   }
 </script>
@@ -181,6 +180,10 @@
   @import '../../css/calendar.vars.styl'
 
   .calendar-day
+    .day-hour
+      &:hover
+        background #b0bec5
+        cursor pointer
     position relative
     .calendar-day-cell-height
       height 5rem

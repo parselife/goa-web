@@ -64,11 +64,10 @@
                  @click="handleDayClick(thisDay.dateObject)">
               {{ thisDay.dateObject.day }}
             </div>
-            <!--todo-->
             <div class="col text-right" v-if="true">
               <q-btn icon="add"
                      flat dense color="primary" size="sm"
-                     @click="triggerEventAdd(eventRef)">
+                     @click="triggerEventAdd(eventRef, thisDay.dateObject)">
                 <q-tooltip anchor="bottom middle" self="top middle">
                   填写工时
                 </q-tooltip>
@@ -145,7 +144,8 @@
         workingDate: new Date(),
         weekArray: [],
         parsed: this.getDefaultParsed(),
-        eventDetailEventObject: {}
+        eventDetailEventObject: {},
+        isMonthView: true
       };
     },
     computed: {

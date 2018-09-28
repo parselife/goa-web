@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <data-table :columns="columns" end-point="job" selection="none" :hide-top="true"></data-table>
+    <data-table :columns="columns" end-point="job" selection="none" :hide-top="true" :show-search="true"></data-table>
   </q-page>
 </template>
 

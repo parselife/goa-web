@@ -200,12 +200,10 @@ export default {
         this.getPassedInEventArray()
       }
     },
-
     // 更新事件 todo
     handleEventUpdate: function (eventObject) {
-      // todo
+      debugger
       let thisEventId = eventObject.id
-      // update eventArray
       for (let thisEventIndex in this.eventArray) {
         if (this.eventArray[thisEventIndex].id === thisEventId) {
           this.eventArray[thisEventIndex] = eventObject
@@ -215,7 +213,7 @@ export default {
     },
     handleEventDelete(eventObject) {
       if (eventObject.id !== undefined) {
-        Loading.show({spinner: QSpinnerGears, message: '接口通信中...', spinnerColor: 'blue-grey'})
+        Loading.show({spinner: QSpinnerGears, message: '操作中...', spinnerColor: 'blue-grey'})
         this.$axios.delete(`/rest/job/${eventObject.id}`)
           .then(({data}) => {
             Loading.hide()

@@ -20,6 +20,7 @@
         <div
           v-if="isEditingAllowed && inEditMode"
           class="ced-toolbar-edit-spacer">
+          {{dayTitle}}
         </div>
         <q-field>
           <q-input
@@ -209,6 +210,7 @@
   import {CalendarMixin} from './mixins'
 
   const {DateTime} = require('luxon')
+
   export default {
     name: 'CalendarEventDetail',
     props: {
@@ -244,7 +246,17 @@
         endTimeObject: new Date()
       }
     },
+    watch: {
+      eventObject: function (val) {
+        if (val.startEditNow === true && !this.inEditMode) {
+          this.startEditMode()
+        }
+      }
+    },
     computed: {
+      dayTitle() {
+        return this.formatDate(this.eventObject.start.dateObject, 'yyyy-MM-dd')
+      },
       getTopColorClasses: function () {
         return this.addCssColorClasses({
             'ced-top': true,
@@ -272,11 +284,9 @@
       }
     },
     mounted() {
-
-      this.getData()
+      this.getSelectOptions()
     },
     methods: {
-
       __open: function () {
         this.modalIsOpen = true
       },
@@ -284,7 +294,7 @@
         this.modalIsOpen = false
         this.inEditMode = false
       },
-      getData() {
+      getSelectOptions() {
         this.$axios
           .get(`/rest/types`)
           .then(({data}) => {
@@ -292,7 +302,7 @@
               console.warn(data.msg)
             } else {
               this.jobTypes = data.map(d => {
-               return Object.assign(d, {label: d.alias, value: d.id})
+                return Object.assign(d, {label: d.alias, value: d.id})
               })
             }
           })
@@ -326,8 +336,7 @@
         if (dashHas(this.editEventObject, 'end.dateObject')) {
           if (typeof this.editEventObject.end.dateObject.toJSDate === 'function') {
             dateObj = this.editEventObject.end.dateObject.toJSDate()
-          }
-          else {
+          } else {
             dateObj = this.editEventObject.end.dateObject
           }
           this.endTimeObject = dateObj
@@ -354,16 +363,14 @@
         })
       },
       __save: function () {
-        // convert elements back to parsed format
+        let valid = this.validate()
+        if (valid.hasOwnProperty('valid')) {
+          this.$alert.negative(valid.msg)
+          return
+        }
         let stepList = ['start', 'end']
         for (let step of stepList) {
-          let dateObj = DateTime.fromJSDate(this[step + 'DateObject'])
-          let timeObj = this[step + 'TimeObject']
-          dateObj = dateObj.set({
-            hour: timeObj.getHours(),
-            minute: timeObj.getMinutes(),
-            second: timeObj.getSeconds()
-          })
+          let dateObj = DateTime.fromJSDate(this[step + 'TimeObject'])
           this.editEventObject[step] = {
             dateObject: dateObj,
             dateTime: dateObj.toISO()
@@ -384,8 +391,40 @@
           this.eventObject
         )
         this.__close()
-      }
+      },
+      // 验证填写的内容是否符合要求
+      validate() {
+        let title = this.editEventObject.title
+        let hasType = this.editEventObject.type.id
+        let hasPro = this.editEventObject.project.id
+        let content = this.editEventObject.content
+        if (title === undefined || title === '') {
+          return {
+            valid: false,
+            msg: '标题不可为空!'
+          }
+        }
+        if (hasType === undefined) {
+          return {
+            valid: false,
+            msg: '选个工作类型吧'
+          }
+        }
 
+        if (hasPro === undefined) {
+          return {
+            valid: false,
+            msg: '关联一个项目（产品）吧'
+          }
+        }
+        if (content === undefined || content === '') {
+          return {
+            valid: false,
+            msg: '填写一些详细的工作描述'
+          }
+        }
+        return {}
+      }
     }
   }
 </script>

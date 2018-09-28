@@ -8,15 +8,20 @@
       row-key="id"
       :selection="selection"
       :selected.sync="selected"
+      :filter="filterStr"
+      :filter-method="filterJobLogs"
       hide-bottom
     >
+      <template slot="top-right" slot-scope="props" v-if="showSearch">
+        <q-search hide-underline v-model="filterStr" placeholder="搜索姓名"/>
+      </template>
       <!-- 插槽名称语法: body-cell-<column_name> -->
       <q-td slot="body-cell-isAdmin" slot-scope="props" :props="props">
         <q-chip v-if="props.value" dense color="primary" tag>管理员</q-chip>
         <q-chip v-else dense color="grey" tag>普通用户</q-chip>
       </q-td>
       <!--操作按钮-->
-      <template slot="top" slot-scope="props" v-if="!hideTop">
+      <template slot="top-left" slot-scope="props" v-if="!hideTop">
         <q-btn color="primary" flat round icon="add" @click="openForm"/>
         <q-btn color="primary" flat round icon="edit" @click="openDetail"/>
         <q-btn color="negative" flat round delete icon="delete"
@@ -76,6 +81,11 @@
       hideTop: {
         type: Boolean,
         default: false
+      },
+      // 是否显示头部检索框
+      showSearch: {
+        type: Boolean,
+        default: false
       }
     },
     data: () => ({
@@ -87,7 +97,8 @@
       formOpened: false,
       requestLoading: false,
       // edit/create
-      opt: undefined
+      opt: undefined,
+      filterStr: ''
     }),
     computed: {
       formRef() {
@@ -116,6 +127,13 @@
       })
     },
     methods: {
+      /**
+       * 工时过滤 todo 待完善 利用后端检索
+       */
+      filterJobLogs() {
+        this.tableData = this.tableData.filter((d) => d.user.displayName.indexOf(this.filterStr) > -1)
+      },
+
       /**
        * 获取所有数据
        */

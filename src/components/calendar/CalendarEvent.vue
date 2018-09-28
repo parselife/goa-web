@@ -2,7 +2,7 @@
   <div
     :class="getEventClass()"
     :style="getEventStyle()"
-    @click="handleClick">
+    @click.prevent="handleClick">
       <span v-if="showTime" class="calendar-event-start-time">
         {{ formatTime(eventObject.start.dateObject) }}
       </span>

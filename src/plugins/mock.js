@@ -225,7 +225,6 @@ function setup() {
 
   m.onGet('/user/alter').reply(config => {
     return new Promise((resolve, reject) => {
-      debugger
       if (config.params.oldPwd != users[0].id) {
         resolve([200, {success: false, msg:'密码错误'}])
       }
@@ -255,6 +254,16 @@ function setup() {
           joblogs
         ])
       }, 1500)
+    })
+  })
+
+  m.onDelete('/rest/job/1').reply(config => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([200,
+          joblogs
+        ])
+      }, 1000)
     })
   })
 

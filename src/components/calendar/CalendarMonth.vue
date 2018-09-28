@@ -44,13 +44,23 @@
         >
           <div
             v-if="isCurrentDate(thisDay.dateObject)"
-            :class="{ 'cursor-pointer': calendarDaysAreClickable }"
+            :class="{ 'cursor-pointer': calendarDaysAreClickable ,'row': true}"
             @click="handleDayClick(thisDay.dateObject)"
           >
             <quantity-bubble
               :quantity="thisDay.dateObject.day"
               :offset="false"
+              class="col"
             />
+            <div v-if="true">
+              <q-btn icon="add"
+                     flat dense color="primary" size="sm"
+                     @click="triggerEventAdd(eventRef, thisDay.dateObject)">
+                <q-tooltip anchor="bottom middle" self="top middle">
+                  填写工时
+                </q-tooltip>
+              </q-btn>
+            </div>
           </div>
           <div
             v-else

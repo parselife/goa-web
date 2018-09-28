@@ -10,7 +10,7 @@
       :selected.sync="selected"
       :filter="filterStr"
       :filter-method="filterJobLogs"
-      hide-bottom
+      :pagination.sync="pagination"
     >
       <template slot="top-right" slot-scope="props" v-if="showSearch">
         <q-search hide-underline v-model="filterStr" placeholder="搜索姓名"/>
@@ -89,6 +89,12 @@
       }
     },
     data: () => ({
+      pagination: {
+        sortBy: 'createAt', // 字符串，列“name”属性值
+        descending: true,
+        page: 1,
+        rowsPerPage: 10 // 当前每页显示的行数
+      },
       loading: false,
       // 选中数据
       selected: [],

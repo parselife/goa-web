@@ -99,7 +99,7 @@
       </div>
     </div>
     <calendar-event-detail
-      ref="defaultEventDetail"
+      :ref="'eventDetail'+eventRef"
       v-if="!preventEventDetail"
       :event-object="eventDetailEventObject"
       :calendar-locale="calendarLocale"
@@ -276,13 +276,21 @@
         }
       }
     },
-    mounted() {
-      this.doUpdate();
-      this.handlePassedInEvents();
+    created() {
       this.$root.$on(this.eventRef + ":navMovePeriod", this.handleNavMove);
       this.$root.$on("click-event-" + this.eventRef, this.handleEventDetailEvent);
       this.$root.$on("update-event-" + this.eventRef, this.handleEventUpdate);
       this.$root.$on("delete-event-" + this.eventRef, this.handleEventDelete);
+    },
+    mounted() {
+      this.doUpdate();
+      this.handlePassedInEvents();
+    },
+    beforeDestroy() {
+      this.$root.$off(this.eventRef + ":navMovePeriod", this.handleNavMove);
+      this.$root.$off("click-event-" + this.eventRef, this.handleEventDetailEvent);
+      this.$root.$off("update-event-" + this.eventRef, this.handleEventUpdate);
+      this.$root.$off("delete-event-" + this.eventRef, this.handleEventDelete);
     },
     watch: {
       startDate: "handleStartChange",

@@ -1,6 +1,7 @@
 <template>
   <q-modal
     v-model="modalIsOpen"
+    no-backdrop-dismiss
     class="calendar-event-detail"
     @hide="__close()"
     @escape-key="__close()"
@@ -375,6 +376,7 @@
             dateObject: dateObj,
             dateTime: dateObj.toISO()
           }
+          this.editEventObject[step + 'Time'] = dateObj.toISO()
         }
         // 触发修改事件
         this.eventObject = this.editEventObject

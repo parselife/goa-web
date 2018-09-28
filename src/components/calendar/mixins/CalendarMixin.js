@@ -24,7 +24,6 @@ export default {
       return dateObject
     },
     triggerEventClick: function (eventObject, eventRef) {
-      debugger
       this.$root.$emit(
         'click-event-' + eventRef,
         eventObject
@@ -59,7 +58,7 @@ export default {
     handleEventDetailEvent: function (params, thisRef) {
       if (!this.preventEventDetail) {
         if (thisRef === undefined) {
-          thisRef = 'defaultEventDetail'
+          thisRef = 'eventDetail' + this.eventRef
         }
         this.eventDetailEventObject = params
         if (dashHas(this.$refs, thisRef + '.__open')) {

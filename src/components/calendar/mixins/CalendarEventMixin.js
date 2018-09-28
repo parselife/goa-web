@@ -200,20 +200,29 @@ export default {
         this.getPassedInEventArray()
       }
     },
-    // 更新事件 todo
+    // 更新事件
     handleEventUpdate: function (eventObject) {
-      debugger
-      let thisEventId = eventObject.id
-      for (let thisEventIndex in this.eventArray) {
-        if (this.eventArray[thisEventIndex].id === thisEventId) {
-          this.eventArray[thisEventIndex] = eventObject
-          this.parseEventList()
-        }
-      }
+      Loading.show({spinner: QSpinnerGears, message: '操作中...', spinnerColor: 'primary'})
+      this.$axios.post('/rest/job', JSON.stringify(eventObject))
+        .then(({data}) => {
+          Loading.hide()
+          if (data.hasOwnProperty('success')) {
+            this.$alert.negative(data.msg)
+            return
+          } else {
+            this.$alert.positive('操作成功!')
+            this.$root.$emit('refresh-event')
+          }
+        })
+        .catch(err => {
+          Loading.hide()
+          this.$alert.warning('操作失败!')
+          console.error(err)
+        })
     },
     handleEventDelete(eventObject) {
       if (eventObject.id !== undefined) {
-        Loading.show({spinner: QSpinnerGears, message: '操作中...', spinnerColor: 'blue-grey'})
+        Loading.show({spinner: QSpinnerGears, message: '操作中...', spinnerColor: 'primary'})
         this.$axios.delete(`/rest/job/${eventObject.id}`)
           .then(({data}) => {
             Loading.hide()
@@ -225,11 +234,6 @@ export default {
           console.error(err)
         })
       }
-    },
-    handleEventAdd(dateObject) {
-      // todo 添加事件
-      //
-
     }
   },
   mounted() {

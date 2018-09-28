@@ -10,7 +10,7 @@ export default ({app, router, Vue}) => {
   }
 }
 
-const joblogs = [
+let joblogs = [
   {
     "id": 1,
     "user": {
@@ -226,7 +226,7 @@ function setup() {
   m.onGet('/user/alter').reply(config => {
     return new Promise((resolve, reject) => {
       if (config.params.oldPwd != users[0].id) {
-        resolve([200, {success: false, msg:'密码错误'}])
+        resolve([200, {success: false, msg: '密码错误'}])
       }
       setTimeout(() => {
         resolve([200,
@@ -257,11 +257,27 @@ function setup() {
     })
   })
 
+  m.onPost('/rest/job').reply(config => {
+    let jsonStr = config.data
+    let jl = JSON.parse(jsonStr)
+    jl.id = Math.floor(Math.random()*1000)
+    jl.type = types.find(t => t.id === jl.type.id)
+    jl.project = pros.find(p => p.id === jl.project.id)
+    joblogs.push(jl)
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([200,
+          jl
+        ])
+      }, 2000)
+    })
+  })
+
   m.onDelete('/rest/job/1').reply(config => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve([200,
-          joblogs
+          "true"
         ])
       }, 1000)
     })

@@ -171,7 +171,6 @@
     },
     mounted() {
       this.mountSetDate()
-      console.log(this.dateEvents)
     }
   }
 </script>

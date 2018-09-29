@@ -145,6 +145,33 @@
           </template>
         </q-item>
 
+        <!-- 完成进度 -->
+        <q-item>
+          <q-item-main class="ced-list-title" v-if="isEditingAllowed && inEditMode">
+            <q-field icon="data usage">
+              <span style="width: 20%;font-size: .75rem;line-height: 28px;">工作进度:</span>
+              <q-slider
+                style="width: 80%;float: right"
+                v-model="eventObject.progress"
+                :min="0"
+                :max="1"
+                :step=".1"
+                :label-value="`${eventObject.progress*100}%`"
+                label
+                snap
+              />
+            </q-field>
+          </q-item-main>
+          <template v-else>
+            <q-item-side>
+              <q-item-tile icon="data usage"/>
+            </q-item-side>
+            <q-item-main class="ced-list-title">
+              {{eventObject.progress*100}} %
+            </q-item-main>
+          </template>
+        </q-item>
+
         <!-- 详细 -->
         <q-item multiline>
           <q-item-main v-if="isEditingAllowed && inEditMode">

@@ -101,7 +101,8 @@ module.exports = function (ctx) {
         'QCardActions',
         'QSelect',
         'QBtnDropdown',
-        'QSearch'
+        'QSearch',
+        'QSlider'
       ],
       directives: [
         'Ripple'

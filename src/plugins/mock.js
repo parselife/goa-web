@@ -46,6 +46,7 @@ let joblogs = [
     },
     "title": "写代码",
     "content": "详细地写代码",
+    "progress": 0.3,
     "startTime": "2018-09-19T13:56:50+08:00",
     "endTime": "2018-09-19T17:56:50+08:00",
     "createAt": "2018-09-26 09:58:51",
@@ -86,51 +87,13 @@ let joblogs = [
     },
     "title": "页面设计",
     "content": "详细地设计页面",
+    "progress": 0.8,
     "startTime": "2018-09-26T09:00:00+08:00",
     "endTime": "2018-09-26T11:20:00+08:00",
     "createAt": "2018-09-26 10:50:35",
     "updateAt": "2018-09-26 10:50:35"
-  },
-  {
-    "id": 2,
-    "user": {
-      "id": 1,
-      "organ": {
-        "id": 1,
-        "name": "研发部",
-        "desc": "负责研发工作"
-      },
-      "name": "admin",
-      "password": "c4ca4238a0b923820dcc509a6f75849b",
-      "displayName": "Alex",
-      "enabled": false,
-      "isAdmin": true,
-      "createAt": "2018-09-25 09:40:13",
-      "updateAt": "2018-09-25 09:40:13"
-    },
-    "project": {
-      "id": 4,
-      "name": "救援应急云平台",
-      "status": 0,
-      "desc": "正在进行中 第一个版本已发布",
-      "createAt": "2018-09-19 18:01:18",
-      "updateAt": "2018-09-19 18:01:18"
-    },
-    "type": {
-      "id": 5,
-      "name": "design",
-      "alias": "设计",
-      "desc": "UI设计等",
-      "createAt": "2018-09-19 17:56:17",
-      "updateAt": "2018-09-19 17:56:17"
-    },
-    "title": "设计图片",
-    "content": "详细地设计图片",
-    "startTime": "2018-09-26T13:56:50+08:00",
-    "endTime": "2018-09-26T17:56:50+08:00",
-    "createAt": "2018-09-26 10:19:02",
-    "updateAt": "2018-09-26 10:19:02"
   }
+
 ]
 
 const organs = [
@@ -198,6 +161,126 @@ const types = [
     "desc": "UI设计等",
     "createAt": "2018-09-19 17:56:17",
     "updateAt": "2018-09-19 17:56:17"
+  },
+  {
+    "id": 6,
+    "name": "meeting",
+    "alias": "开会",
+    "desc": "开会",
+    "createAt": "2018-09-28 17:38:38",
+    "updateAt": "2018-09-28 17:38:38"
+  },
+  {
+    "id": 7,
+    "name": "画图",
+    "alias": "画图",
+    "desc": "",
+    "createAt": "2018-09-28 17:38:52",
+    "updateAt": "2018-09-28 17:38:52"
+  },
+  {
+    "id": 8,
+    "name": "请假",
+    "alias": "请假",
+    "desc": "请假",
+    "createAt": "2018-09-28 17:38:59",
+    "updateAt": "2018-09-28 17:38:59"
+  },
+  {
+    "id": 9,
+    "name": "文档建设",
+    "alias": "文档建设",
+    "desc": "文档建设",
+    "createAt": "2018-09-28 17:39:06",
+    "updateAt": "2018-09-28 17:39:06"
+  },
+  {
+    "id": 11,
+    "name": "测试",
+    "alias": "测试",
+    "desc": "测试",
+    "createAt": "2018-09-28 17:40:37",
+    "updateAt": "2018-09-28 17:40:37"
+  },
+  {
+    "id": 12,
+    "name": "学习",
+    "alias": "学习",
+    "desc": "学习",
+    "createAt": "2018-09-28 17:43:43",
+    "updateAt": "2018-09-28 17:43:43"
+  },
+  {
+    "id": 13,
+    "name": "培训",
+    "alias": "培训",
+    "desc": "培训",
+    "createAt": "2018-09-28 17:43:50",
+    "updateAt": "2018-09-28 17:43:50"
+  },
+  {
+    "id": 14,
+    "name": "调研",
+    "alias": "调研",
+    "desc": "调研",
+    "createAt": "2018-09-28 17:43:56",
+    "updateAt": "2018-09-28 17:43:56"
+  },
+  {
+    "id": 15,
+    "name": "维护",
+    "alias": "维护",
+    "desc": "维护",
+    "createAt": "2018-09-28 17:44:30",
+    "updateAt": "2018-09-28 17:44:30"
+  },
+  {
+    "id": 16,
+    "name": "数据处理",
+    "alias": "数据处理",
+    "desc": "数据处理",
+    "createAt": "2018-09-28 17:44:38",
+    "updateAt": "2018-09-28 17:44:38"
+  },
+  {
+    "id": 17,
+    "name": "模型贴图",
+    "alias": "模型贴图",
+    "desc": "模型贴图",
+    "createAt": "2018-09-28 17:44:53",
+    "updateAt": "2018-09-28 17:44:53"
+  },
+  {
+    "id": 18,
+    "name": "三维建模",
+    "alias": "三维建模",
+    "desc": "三维建模",
+    "createAt": "2018-09-28 17:45:02",
+    "updateAt": "2018-09-28 17:45:02"
+  },
+  {
+    "id": 19,
+    "name": "功能配置",
+    "alias": "功能配置",
+    "desc": "功能配置",
+    "createAt": "2018-09-28 17:45:13",
+    "updateAt": "2018-09-28 17:45:13"
+  },
+  {
+    "id": 20,
+    "name": "sale",
+    "alias": "售前服务/技术支持/质量管理",
+    "desc": "售前服务/技术支持/质量管理",
+    "createAt": "2018-09-28 17:45:26",
+    "updateAt": "2018-09-28 17:45:26"
+  },
+  {
+    "id": 21,
+    "name": "other",
+    "alias": "其他",
+    "desc": "",
+    "createAt": "2018-09-28 17:45:35",
+    "updateAt": "2018-09-28 17:45:35"
   }
 ]
 
@@ -232,7 +315,7 @@ function setup() {
         resolve([200,
           users[0]
         ])
-      }, 1000)
+      }, 3000)
     })
   })
 
@@ -263,6 +346,7 @@ function setup() {
     jl.id = Math.floor(Math.random()*1000)
     jl.type = types.find(t => t.id === jl.type.id)
     jl.project = pros.find(p => p.id === jl.project.id)
+    jl.startEditNow = false
     joblogs.push(jl)
     return new Promise((resolve, reject) => {
       setTimeout(() => {

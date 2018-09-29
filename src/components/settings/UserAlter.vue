@@ -94,21 +94,25 @@
           this.$set(obj, '$error', false)
           this.$delete(obj, '$errorMsg')
         }
-
-        this.allValid = this.allValid && valid
+        this.allValid = valid
       },
       submit() {
         if (this.allValid && this.newPwd.value !== '') {
+          this.$q.loading.show({
+            delay: 400 // ms
+          })
           // 通过所有验证后 请求后台接口
           this.$axios.get('/user/alter', {
             params: {oldPwd: this.oldPwd.value, newPwd: this.newPwd.value}
           }).then(({data}) => {
+            this.$q.loading.hide()
             if (data.hasOwnProperty('success')) {
               this.$alert.negative(data.msg)
               return
             }
             this.$alert.positive("修改成功,下次登录生效")
           }).catch(err => {
+            this.$q.loading.hide()
             console.error(err)
           })
         }

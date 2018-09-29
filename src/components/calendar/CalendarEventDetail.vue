@@ -249,6 +249,7 @@
     },
     watch: {
       eventObject: function (val) {
+        debugger
         if (val.startEditNow === true && !this.inEditMode) {
           this.startEditMode()
         }

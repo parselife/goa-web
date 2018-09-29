@@ -11,7 +11,7 @@
        {{ formatTime(eventObject.end.dateObject) }}
     </span>
     <span v-if="isEmptySlot()" class="calendar-event-summary"></span>
-    <span v-else class="calendar-event-summary">
+    <span v-else class="calendar-event-summary" :title="eventObject.title">
         {{ eventObject.title }}
     </span>
   </div>

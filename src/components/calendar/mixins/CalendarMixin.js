@@ -31,6 +31,7 @@ export default {
     },
     //  触发添加事件的方法 todo
     triggerEventAdd(eventRef, hitDate, hitHour) {
+      debugger
       let newEvent = {
         project: {},
         type: {},
@@ -56,6 +57,7 @@ export default {
         newEvent)
     },
     handleEventDetailEvent: function (params, thisRef) {
+      debugger
       if (!this.preventEventDetail) {
         if (thisRef === undefined) {
           thisRef = 'eventDetail' + this.eventRef

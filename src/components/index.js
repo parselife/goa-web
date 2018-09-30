@@ -6,4 +6,6 @@ export {default as DataTable} from './DataTable.vue'
 
 export {default as DataFormModal} from './DataFormModal.vue'
 
+export {default as MarkedEditor} from './MarkedEditor.vue'
+
 

@@ -96,8 +96,8 @@
       'isAdmin': 'provideMenus'
     },
     computed: {
-      profileTitle(){
-        return this.loginUser.displayName + (this.isAdmin?'(管理员)':'')
+      profileTitle() {
+        return this.loginUser.displayName + (this.isAdmin ? '(管理员)' : '')
       }
     },
     methods: {
@@ -111,6 +111,10 @@
           this.isAdmin = data.isAdmin || false
           if (this.isAdmin) {
             SessionStorage.set('isAdmin', true)
+          } else {
+            if (SessionStorage.has('isAdmin')) {
+              SessionStorage.remove('isAdmin')
+            }
           }
         }).catch(err => {
           console.error('get user error: %o', err)

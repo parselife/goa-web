@@ -251,7 +251,7 @@
           }
           if (f.hasOwnProperty('options')) {
             f.options = f.options.map(val => {
-              return {label: val.label || val.name, value: val.value || val.id}
+              return {label: val.label || val.displayName ||val.name, value: val.value || val.id}
             })
           }
         })

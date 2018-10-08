@@ -12,6 +12,7 @@
       DataTable
     },
     data: () => ({
+      users: [],
       columns: [
         {
           name: "name",
@@ -21,6 +22,16 @@
           field: "name",
           sortable: true,
           editable: true
+        },
+        {
+          name: "manager",
+          required: true,
+          label: "部门主管",
+          align: "left",
+          field: "head",
+          editable: true,
+          type: 'select',
+          options: []
         },
         {
           name: "desc",
@@ -33,6 +44,11 @@
         }
       ]
     }),
+    mounted() {
+      this.$axios.get('/rest/users').then(({data}) => {
+        this.columns.find(f => f.name === 'manager').options = data
+      })
+    },
     methods: {}
   }
 </script>

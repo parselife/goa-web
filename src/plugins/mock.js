@@ -100,17 +100,23 @@ const organs = [
   {
     "id": 1,
     "name": "研发部",
-    "desc": "负责研发工作"
+    "desc": "负责研发工作",
+    "manager": 1,
+    "head": "应"
   },
   {
     "id": 3,
     "name": "数据部",
-    "desc": "负责数据生产工作"
+    "desc": "负责数据生产工作",
+    "manager": 2,
+    "head": "夏"
   },
   {
     "id": 4,
     "name": "高层管理",
-    "desc": "负责公司管理与决策工作"
+    "desc": "负责公司管理与决策工作",
+    "manager": 1,
+    "head": "邵"
   }
 ]
 
@@ -118,12 +124,12 @@ const users = [
   {
     "id": 1,
     "organ": {
-      "id": 0,
+      "id": 1,
       "name": "研发部"
     },
     "name": "admin",
     "password": "c4ca4238a0b923820dcc509a6f75849b",
-    "displayName": "Alex",
+    "displayName": "应",
     "enabled": false,
     "isAdmin": true,
     "createAt": "2018-09-25 09:40:13",
@@ -132,12 +138,12 @@ const users = [
   {
     "id": 2,
     "organ": {
-      "id": 0,
-      "name": "研发部"
+      "id": 3,
+      "name": "数据部"
     },
     "name": "user",
     "password": "c4ca4238a0b923820dcc509a6f75849b",
-    "displayName": "User",
+    "displayName": "夏",
     "enabled": false,
     "isAdmin": false,
     "createAt": "2018-09-25 09:40:13",

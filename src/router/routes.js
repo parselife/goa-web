@@ -18,13 +18,13 @@ const routes = [
           title: '应用设置'
         }
       },
-      {
-        path: '/doc',
-        component: () => import('pages/MyDocPage.vue'),
-        meta: {
-          title: '文档编辑'
-        }
-      },
+      // {
+      //   path: '/doc',
+      //   component: () => import('pages/MyDocPage.vue'),
+      //   meta: {
+      //     title: '文档编辑'
+      //   }
+      // },
       {
         path: '/admin',
         component: () => import('pages/admin/Index.vue'),

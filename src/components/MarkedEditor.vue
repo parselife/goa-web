@@ -3,7 +3,15 @@ markdown 编辑器
 -->
 <template>
   <div class="editor-wrapper">
-    <div id="editorContainer"></div>
+    <q-field
+      v-if="!previewerOnly"
+      :count="20"
+      class="title-field q-mb-md"
+    >
+      <q-input max-length="20" float-label="标题" v-model="title"/>
+    </q-field>
+    <h5 v-else>{{title}}</h5>
+    <div id="editorContainer" />
     <div class="editor-opt text-center q-mt-md" v-if="!previewerOnly">
       <q-btn label="保存" color="primary" @click="save"></q-btn>
     </div>
@@ -19,6 +27,7 @@ markdown 编辑器
   export default {
     props: {
       editText: String,
+      title: String,
       previewerOnly: {
         type: Boolean,
         default: false
@@ -63,6 +72,11 @@ markdown 编辑器
 
   .editor-wrapper {
     width: 100%;
+  }
+
+  .title-field {
+    width: 50%;
+    margin: 0 auto
   }
 
 </style>

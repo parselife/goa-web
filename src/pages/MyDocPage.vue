@@ -2,7 +2,7 @@
 <template>
   <q-page padding>
     <!-- content -->
-    <marked-editor edit-text="# Hello Vue" previewer-only></marked-editor>
+    <marked-editor edit-text="# Hello Vue" previewer-only title="考勤通知"></marked-editor>
   </q-page>
 </template>
 

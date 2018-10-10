@@ -3,7 +3,6 @@
     class="quantity-bubble-holder q-mb-sm"
     v-if="quantity > 0"
   >
-    &nbsp;
     <div :class="bubbleClass">
       <div class="quantity-value">
         {{ quantity }}
@@ -53,7 +52,7 @@
     },
     methods: {},
     components: {},
-    data () {
+    data() {
       return {}
     }
   }

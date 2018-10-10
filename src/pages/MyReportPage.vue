@@ -5,19 +5,25 @@
       <q-tab label="周报" name="weekly" slot="title" default icon="view week"></q-tab>
       <q-tab label="月报" name="monthly" slot="title" icon="view list"></q-tab>
       <q-tab-pane name="weekly">
-        week
+        <calendar-week></calendar-week>
       </q-tab-pane>
       <q-tab-pane name="monthly">
-        month
+        <calendar-year></calendar-year>
       </q-tab-pane>
     </q-tabs>
   </q-page>
 </template>
 
 <script>
-export default {
-  // name: 'PageName',
-}
+  import {CalendarWeek, CalendarYear} from '../components/calendar'
+
+  export default {
+    // name: 'PageName',
+    components: {
+      CalendarYear,
+      CalendarWeek
+    }
+  }
 </script>
 
 <style scoped>

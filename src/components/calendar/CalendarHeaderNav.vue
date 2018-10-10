@@ -71,4 +71,7 @@
     .calendar-month-year
       font-size 1.25em
       font-weight bold
+    .calendar-header-label
+      font-size 1.25em
+      font-weight bold
 </style>

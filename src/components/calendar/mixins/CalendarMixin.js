@@ -31,7 +31,6 @@ export default {
     },
     //  触发添加事件的方法 todo
     triggerEventAdd(eventRef, hitDate, hitHour) {
-      debugger
       let newEvent = {
         project: {},
         type: {},
@@ -201,6 +200,10 @@ export default {
         this.makeDT(thisDateObject),
         'day'
       )
+    },
+    isCurrentYearAndMonth(thisDateObject) {
+      return DateTime.local().hasSame(this.makeDT(thisDateObject),'year') &&
+        DateTime.local().hasSame(this.makeDT(thisDateObject),'month')
     },
     isWeekendDay: function (thisDateObject) {
       const dayNumber = this.makeDT(thisDateObject).weekday

@@ -12,6 +12,20 @@ const routes = [
         }
       },
       {
+        path: '/report',
+        component: () => import('pages/MyReportPage.vue'),
+        meta: {
+          title: '我的汇报'
+        }
+      },
+      {
+        path: '/msg',
+        component: () => import('pages/MyMessagePage.vue'),
+        meta: {
+          title: '我的消息'
+        }
+      },
+      {
         path: '/setting',
         component: () => import('pages/SettingPage.vue'),
         meta: {

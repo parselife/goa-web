@@ -34,6 +34,16 @@
           options: []
         },
         {
+          name: "parent",
+          required: true,
+          label: "上级部门",
+          align: "left",
+          field: row => row.parent.name,
+          editable: true,
+          type: 'select',
+          options: []
+        },
+        {
           name: "desc",
           required: true,
           label: "职责描述",
@@ -47,6 +57,9 @@
     mounted() {
       this.$axios.get('/rest/users').then(({data}) => {
         this.columns.find(f => f.name === 'manager').options = data
+      })
+      this.$axios.get('/rest/organs').then(({data}) => {
+        this.columns.find(f => f.name === 'parent').options = data
       })
     },
     methods: {}

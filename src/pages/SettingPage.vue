@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="setting-page">
+  <q-page padding>
     <q-btn-toggle
       v-model="model"
       toggle-color="primary"

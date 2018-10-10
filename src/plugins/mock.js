@@ -98,27 +98,53 @@ let joblogs = [
 
 const organs = [
   {
+    "desc": "",
+    "head": "Alex",
     "id": 1,
+    "manager": 1,
     "name": "研发部",
-    "desc": "负责研发工作",
-    "manager": 1,
-    "head": "应"
+    "parent": {
+      "id": 5,
+      "name": "技术部",
+      "parent": 0,
+      "desc": "包含研发部、数据部",
+      "manager": 0,
+      "createAt": "2018-10-09 09:04:25",
+      "updateAt": "2018-10-09 09:04:25"
+    }
   },
   {
-    "id": 3,
-    "name": "数据部",
-    "desc": "负责数据生产工作",
-    "manager": 2,
-    "head": "夏"
-  },
-  {
+    "desc": "",
+    "head": "邵静惠",
     "id": 4,
+    "manager": 2,
     "name": "高层管理",
-    "desc": "负责公司管理与决策工作",
+    "parent": {
+      "id": 0,
+      "name": "",
+      "parent": 0,
+      "manager": 0,
+      "createAt": "0001-01-01 00:00:00",
+      "updateAt": "0001-01-01 00:00:00"
+    }
+  },
+  {
+    "desc": "包含研发部、数据部",
+    "head": "Alex",
+    "id": 5,
     "manager": 1,
-    "head": "邵"
+    "name": "技术部",
+    "parent": {
+      "id": 0,
+      "name": "",
+      "parent": 0,
+      "manager": 0,
+      "createAt": "0001-01-01 00:00:00",
+      "updateAt": "0001-01-01 00:00:00"
+    }
   }
 ]
+
 
 const users = [
   {

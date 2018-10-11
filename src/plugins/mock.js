@@ -356,7 +356,7 @@ function setup() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve([200,
-          users[0]
+          users[1]
         ])
       }, 2000)
     })

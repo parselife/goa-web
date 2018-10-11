@@ -97,7 +97,7 @@
     },
     computed: {
       profileTitle() {
-        return this.loginUser.displayName + (this.isAdmin ? '(管理员)' : '')
+        return this.loginUser.displayName + (this.isAdmin ? '(管理员)' : ` (${this.loginUser.organ.name})`)
       }
     },
     methods: {

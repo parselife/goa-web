@@ -201,6 +201,11 @@ export default {
         'day'
       )
     },
+    // 超出当前日期
+    isOverCurrentDate(thisDateObject) {
+      // todo
+
+    },
     isCurrentYearAndMonth(thisDateObject) {
       return DateTime.local().hasSame(this.makeDT(thisDateObject),'year') &&
         DateTime.local().hasSame(this.makeDT(thisDateObject),'month')
